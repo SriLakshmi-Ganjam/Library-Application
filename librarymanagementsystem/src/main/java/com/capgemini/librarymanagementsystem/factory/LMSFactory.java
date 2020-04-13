@@ -1,30 +1,18 @@
 package com.capgemini.librarymanagementsystem.factory;
 
-import com.capgemini.librarymanagementsystem.dao.AdminDAO;
-import com.capgemini.librarymanagementsystem.dao.AdminDAOImplementation;
-import com.capgemini.librarymanagementsystem.dao.UserDAO;
-import com.capgemini.librarymanagementsystem.dao.UserDAOImplementation;
-import com.capgemini.librarymanagementsystem.service.Service;
-import com.capgemini.librarymanagementsystem.service.ServiceImplementation;
-import com.capgemini.librarymanagementsystem.service.UserService;
-import com.capgemini.librarymanagementsystem.service.UserServiceImplementation;
+import com.capgemini.librarymanagementsystem.dao.LibraryDAO;
+import com.capgemini.librarymanagementsystem.dao.LibraryDAOImplementation;
+import com.capgemini.librarymanagementsystem.service.LibraryService;
+import com.capgemini.librarymanagementsystem.service.LibraryServiceImplementation;
 
 public class LMSFactory {
 	
-	public static AdminDAO getAdminDAO() {
-		return new AdminDAOImplementation();
+	public static LibraryDAO getLibraryDAO() {
+		return new LibraryDAOImplementation();
 	}
-	
-	public static Service getServiceDAO() {
-		return new ServiceImplementation();
-	}
-	
-	public static UserDAO getUserDAO() {
-		return new UserDAOImplementation();
-	}
-	
-	public static UserService getUserServiceDAO() {
-		return new UserServiceImplementation();
+
+	public static LibraryService getLibraryServiceDAO() {
+		return new LibraryServiceImplementation();
 	}
 
 }

@@ -11,6 +11,7 @@ public class UserInfo  implements Serializable{
 	private String userPassword;
 	private int noOfBooksBorrowed;
 	private double fine;
+	
 	public double getFine() {
 		return fine;
 	}

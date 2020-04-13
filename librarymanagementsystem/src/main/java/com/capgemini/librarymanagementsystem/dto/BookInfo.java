@@ -11,6 +11,15 @@ public class BookInfo implements Serializable{
 	private double price;
 	private Date bookIssueDate;
 	private Date bookReturnDate;
+	private boolean isAvailable;
+	
+	
+	public boolean isAvailable() {
+		return isAvailable;
+	}
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
 	public int getIsbn() {
 		return isbn;
 	}

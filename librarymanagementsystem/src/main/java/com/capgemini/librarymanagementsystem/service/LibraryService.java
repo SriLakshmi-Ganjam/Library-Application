@@ -1,4 +1,4 @@
-package com.capgemini.librarymanagementsystem.dao;
+package com.capgemini.librarymanagementsystem.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import com.capgemini.librarymanagementsystem.dto.BookInfo;
 import com.capgemini.librarymanagementsystem.dto.RequestInfo;
 import com.capgemini.librarymanagementsystem.dto.UserInfo;
 
-public interface LibraryDAO {
+public interface LibraryService {
 	boolean register(UserInfo user);
 
 	boolean adminAuthentication(String adminEmailId, String adminPassword);
@@ -24,10 +24,6 @@ public interface LibraryDAO {
 	List<BookInfo> searchBook(BookInfo bookInfo);
 
 	List<RequestInfo> showRequests();
-
-//	boolean isBookIssued(int requestId);
-//
-//	boolean isBookReceived(int requestId);
 
 	boolean bookIssue(int userId, int bookId);
 
