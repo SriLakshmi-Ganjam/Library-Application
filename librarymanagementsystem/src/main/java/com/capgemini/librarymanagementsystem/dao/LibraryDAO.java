@@ -25,14 +25,9 @@ public interface LibraryDAO {
 
 	List<RequestInfo> showRequests();
 
-//	boolean isBookIssued(int requestId);
-//
-//	boolean isBookReceived(int requestId);
-
 	boolean bookIssue(int userId, int bookId);
 
 	public boolean isBookReceived(int userId, int bookId);
-	// USER INTERFACE
 
 	boolean bookRequest(int userId, int bookId);
 

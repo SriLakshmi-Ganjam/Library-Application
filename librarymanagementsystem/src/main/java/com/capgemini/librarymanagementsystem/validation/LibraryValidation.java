@@ -10,6 +10,7 @@ public class LibraryValidation {
 	public boolean validateId(int id) throws LMSException {
 		String idRegx = "[\\d&&[^0]][\\d]{2}";
 		boolean isValidated = Pattern.matches(idRegx, String.valueOf(id));
+		
 		if (isValidated) {
 			return true;
 		} else {
@@ -22,6 +23,7 @@ public class LibraryValidation {
 		boolean result = false;
 		Pattern pattern = Pattern.compile(nameRegEx);
 		Matcher matcher = pattern.matcher(name);
+		
 		if (matcher.matches()) {
 			result = true;
 		} else {
@@ -34,6 +36,7 @@ public class LibraryValidation {
 	public boolean validateEmail(String email) throws LMSException {
 		String emailRegx = "[\\w&&[^_]]{3,50}[@]{1}\\D{2,50}[.]{1}\\D{2,50}";
 		boolean isValidated = Pattern.matches(emailRegx, email);
+		
 		if (isValidated) {
 			return true;
 		} else {
@@ -44,6 +47,7 @@ public class LibraryValidation {
 	public boolean validatePassword(String password) throws LMSException {
 		String passwordRegx = "^.{4,8}$";
 		boolean isValidated = Pattern.matches(passwordRegx, password);
+		
 		if (isValidated) {
 			return true;
 		} else {

@@ -28,7 +28,6 @@ public interface LibraryService {
 	boolean bookIssue(int userId, int bookId);
 
 	public boolean isBookReceived(int userId, int bookId);
-	// USER INTERFACE
 
 	boolean bookRequest(int userId, int bookId);
 

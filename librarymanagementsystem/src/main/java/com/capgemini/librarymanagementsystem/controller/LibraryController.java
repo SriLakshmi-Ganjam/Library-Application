@@ -3,7 +3,6 @@ package com.capgemini.librarymanagementsystem.controller;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-
 import com.capgemini.librarymanagementsystem.dto.BookInfo;
 import com.capgemini.librarymanagementsystem.dto.RequestInfo;
 import com.capgemini.librarymanagementsystem.dto.UserInfo;
@@ -526,10 +525,9 @@ public class LibraryController {
 				scanner.nextLine();
 				System.out.println("Enter Authour Name ");
 				authourName = checkName();
-				
+				bookInfo.setAuthourName(authourName);
 
 				try {
-					bookInfo.setAuthourName(authourName);
 					List<BookInfo> books = SERVICE.searchBook(bookInfo);
 					for (BookInfo bookInfo2 : books) {
 						System.out.println("Book Id -----------------------------> " + bookInfo2.getIsbn());

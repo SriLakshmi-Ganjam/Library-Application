@@ -8,6 +8,11 @@ public class RequestInfo implements Serializable {
 
 	private int bookId;
 	private int userId;
+	private boolean isIssued;
+	private boolean isReturned;
+	private Date issuedDate;
+	private Date returnedDate;
+	private Date expectedReturnedDate;
 
 	public int getBookId() {
 		return bookId;
@@ -24,12 +29,6 @@ public class RequestInfo implements Serializable {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
-	private boolean isIssued;
-	private boolean isReturned;
-	private Date issuedDate;
-	private Date returnedDate;
-	private Date expectedReturnedDate;
 
 	public Date getExpectedReturnedDate() {
 		return expectedReturnedDate;
