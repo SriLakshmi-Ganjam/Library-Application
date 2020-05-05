@@ -14,16 +14,15 @@ import com.capgemini.librarymanagementsystem.exception.LMSException;
 
 public class LibraryDAOImplementation implements LibraryDAO {
 	Date date = new Date();
-	Date expectedReturnDate = new Date();
-	Date retunedDate = new Date();
-	Calendar calendar = Calendar.getInstance();
+	Date expectedReturnDate;
+	Date returnedDate;
 
 	@Override
 	public boolean register(UserInfo user) {
 		for (UserInfo userBean : DataBase.USERDB) {
 			if ((userBean.getUserId() == user.getUserId())
 					|| (userBean.getUserEmailId().equals(user.getUserEmailId()))) {
-				throw new LMSException("User Already Exists");
+				throw new LMSException("Cannot Add User As User Already Exists");
 			}
 		}
 
@@ -33,29 +32,31 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public boolean adminAuthentication(String adminEmailId, String adminPassword) {
-		AdminInfo adminInfo = new AdminInfo();
-		
-		if (adminInfo.getAdminEmailId().equals(adminEmailId) && adminInfo.getAdminPassword().equals(adminPassword)) {
-			return true;
+
+		for (AdminInfo adminInfo : DataBase.ADMINDB) {
+			if (adminInfo.getAdminEmailId().equalsIgnoreCase(adminEmailId)
+					&& adminInfo.getAdminPassword().equals(adminPassword)) {
+				return true;
+			}
 		}
-		throw new LMSException("Invalid Admin credentials");
+		throw new LMSException("Invalid Admin Credentials");
 	}
 
 	@Override
 	public boolean userAuthentication(String userEmailId, String userPassword) {
 		for (UserInfo userInfo : DataBase.USERDB) {
-			if ((userInfo.getUserEmailId().equals(userEmailId)) && (userInfo.getUserPassword().equals(userPassword))) {
+			if ((userInfo.getUserEmailId().equalsIgnoreCase(userEmailId)) && (userInfo.getUserPassword().equals(userPassword))) {
 				return true;
 			}
 		}
-		throw new LMSException("Invalid user credentials");
+		throw new LMSException("Invalid User Credentials");
 	}
 
 	@Override
 	public boolean addBook(BookInfo book) {
 		for (BookInfo bookBean : DataBase.BOOKDB) {
 			if (bookBean.getIsbn() == book.getIsbn()) {
-				throw new LMSException("Book Id Already Exists");
+				throw new LMSException("Cannot Add Book, As Book Id Already Exists");
 			}
 		}
 		DataBase.BOOKDB.add(book);
@@ -70,7 +71,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 				return true;
 			}
 		}
-		throw new LMSException("Book Id Not Found");
+		throw new LMSException("Cannot Remove The Book, As Book Id Not Found");
 	}
 
 	@Override
@@ -85,7 +86,13 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			book.isAvailable();
 			booksList.add(book);
 		}
-		return booksList;
+
+		if (booksList.isEmpty()) {
+			throw new LMSException("No Books Found In Library");
+		} else {
+			return booksList;
+		}
+
 	}
 
 	@Override
@@ -93,19 +100,22 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		List<BookInfo> booksList = new LinkedList<BookInfo>();
 
 		for (BookInfo bookBean : DataBase.BOOKDB) {
-			try {
-				if (bookBean.getIsbn() == bookInfo.getIsbn()) {
-					booksList.add(bookBean);
-				} else if (bookBean.getBookTitle().equalsIgnoreCase(bookInfo.getBookTitle())) {
-					booksList.add(bookBean);
-				} else if (bookBean.getAuthourName().equalsIgnoreCase(bookInfo.getAuthourName())) {
-					booksList.add(bookBean);
-				}
-			} catch (LMSException e) {
-				throw new LMSException("No Book Found");
+
+			if (bookBean.getIsbn() == bookInfo.getIsbn()) {
+				booksList.add(bookBean);
+			} else if (bookBean.getBookTitle().equalsIgnoreCase(bookInfo.getBookTitle())) {
+				booksList.add(bookBean);
+			} else if (bookBean.getAuthourName().equalsIgnoreCase(bookInfo.getAuthourName())) {
+				booksList.add(bookBean);
 			}
 		}
-		return booksList;
+
+		if (booksList.isEmpty()) {
+			throw new LMSException("Book Not Found");
+		} else {
+			return booksList;
+		}
+
 	}
 
 	@Override
@@ -113,17 +123,19 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		List<UserInfo> usersList = new LinkedList<UserInfo>();
 
 		for (UserInfo userInfo : DataBase.USERDB) {
-			try {
-				userInfo.getUserId();
-				userInfo.getUserName();
-				userInfo.getUserEmailId();
-				userInfo.getNoOfBooksBorrowed();
-				usersList.add(userInfo);
-			} catch (LMSException e) {
-				throw new LMSException("No Users Found");
-			}
+			userInfo.getUserId();
+			userInfo.getUserName();
+			userInfo.getUserEmailId();
+			userInfo.getNoOfBooksBorrowed();
+			usersList.add(userInfo);
 		}
-		return usersList;
+
+		if (usersList.isEmpty()) {
+			throw new LMSException("No Users Found");
+		} else {
+			return usersList;
+		}
+
 	}
 
 	@Override
@@ -131,17 +143,19 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		List<RequestInfo> requestsList = new LinkedList<RequestInfo>();
 
 		for (RequestInfo requestInfo : DataBase.REQUESTDB) {
-			try {
-				requestInfo.getBookId();
-				requestInfo.getUserId();
-				requestInfo.isIssued();
-				requestInfo.isReturned();
-				requestsList.add(requestInfo);
-			} catch (LMSException e) {
-				throw new LMSException("No Requests Placed");
-			}
+			requestInfo.getBookId();
+			requestInfo.getUserId();
+			requestInfo.isIssued();
+			requestInfo.isReturned();
+			requestsList.add(requestInfo);
 		}
-		return requestsList;
+
+		if (requestsList.isEmpty()) {
+			throw new LMSException("No Requests Placed");
+		} else {
+			return requestsList;
+		}
+
 	}
 
 	@Override
@@ -171,7 +185,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			}
 		}
 
-		throw new LMSException("Invalid request or you cannot request that book");
+		throw new LMSException("Invalid Request");
 	}
 
 	@Override
@@ -181,12 +195,13 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		BookInfo book = new BookInfo();
 		int noOfBooksBorrowed = 0;
 		boolean isValidReq = false;
+		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, 15);
 		expectedReturnDate = calendar.getTime();
 
 		for (RequestInfo requestInfo2 : DataBase.REQUESTDB) {
 			if (requestInfo2.getUserId() == userId) {
-				if ((requestInfo2.getBookId() == bookId)&&(requestInfo2.isIssued() == false)) {
+				if ((requestInfo2.getBookId() == bookId) && (requestInfo2.isIssued() == false)) {
 					isValidReq = true;
 					requestInfo = requestInfo2;
 				}
@@ -217,24 +232,27 @@ public class LibraryDAOImplementation implements LibraryDAO {
 				return true;
 			} else {
 				DataBase.REQUESTDB.remove(requestInfo);
-				throw new LMSException("Student Exceeds maximum Borrowing limit");
+				throw new LMSException("Book Cannot be Issued, as Student Exceeds maximum Borrowing limit");
 			}
 
 		} else {
-			throw new LMSException("Invalid UserID/BookId");
+			throw new LMSException("Book Cannot be Issued, as Invalid UserID/BookId");
 
 		}
 	}
 
 	@Override
 	public boolean bookReturn(int userId, int bookId) {
-		Date returnDate = new Date();
+		Calendar calendar2 = Calendar.getInstance();
+		calendar2.add(Calendar.DATE, 20);
+		returnedDate = calendar2.getTime();
+//		  System.out.println(returnedDate);
 
 		for (RequestInfo requestInfo : DataBase.REQUESTDB) {
 			if (requestInfo.getBookId() == bookId && requestInfo.getUserId() == userId
 					&& requestInfo.isIssued() == true) {
 				requestInfo.setReturned(true);
-				requestInfo.setReturnedDate(returnDate);
+				requestInfo.setReturnedDate(returnedDate);
 				return true;
 			}
 		}
@@ -246,16 +264,25 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		boolean isValidReceive = false;
 		RequestInfo requestInfo = new RequestInfo();
 		int noOfBooksBorrowed;
+		double fine;
 
 		for (RequestInfo requestInfo1 : DataBase.REQUESTDB) {
 			if (requestInfo1.getBookId() == bookId && requestInfo1.getUserId() == userId
 					&& requestInfo1.isReturned() == true) {
 				isValidReceive = true;
+				expectedReturnDate = requestInfo1.getExpectedReturnedDate();
+				returnedDate = requestInfo1.getReturnedDate();
 				requestInfo = requestInfo1;
 			}
 		}
 
 		if (isValidReceive) {
+
+			long expReturnDateInMilliSecs = expectedReturnDate.getTime();
+			long returnedDateInMilliSecs = returnedDate.getTime();
+			long diffInMilliSecs = returnedDateInMilliSecs - expReturnDateInMilliSecs;
+			int NoOfDaysDelayed = (int) (diffInMilliSecs / (24 * 60 * 60 * 1000));
+
 			for (BookInfo bookInfo : DataBase.BOOKDB) {
 				if (bookInfo.getIsbn() == bookId) {
 					bookInfo.setAvailable(true);
@@ -268,6 +295,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 					noOfBooksBorrowed = userInfo.getNoOfBooksBorrowed();
 					noOfBooksBorrowed--;
 					userInfo.setNoOfBooksBorrowed(noOfBooksBorrowed);
+					fine = userInfo.getFine();
+					if (NoOfDaysDelayed > 0) {
+						fine = fine + (NoOfDaysDelayed * 5);
+						userInfo.setFine(fine);
+					}
+//					System.out.println("fine :"+fine);
 					break;
 				}
 			}
@@ -275,6 +308,19 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			DataBase.REQUESTDB.remove(requestInfo);
 			return true;
 		}
-		throw new LMSException("Invalid Recive");
+		throw new LMSException("Book Cannot be Received, as Invalid UserId/BookId");
+	}
+
+	@Override
+	public boolean changePassword(int userId, String oldPassword, String newPassword) {
+
+		for (UserInfo userInfo : DataBase.USERDB) {
+			if ((userInfo.getUserId() == userId) && (userInfo.getUserPassword().equals(oldPassword))) {
+				userInfo.setUserPassword(newPassword);
+				return true;
+			}
+		}
+
+		throw new LMSException("Password Can't be Changed Due To Invalid Credentials");
 	}
 }

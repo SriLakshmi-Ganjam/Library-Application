@@ -8,8 +8,7 @@ public class BookInfo implements Serializable{
 	private String bookTitle;
 	private String authourName;
 	private double price;
-	private boolean isAvailable;
-	
+	private boolean isAvailable;	
 	
 	public boolean isAvailable() {
 		return isAvailable;
@@ -42,9 +41,5 @@ public class BookInfo implements Serializable{
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
-	
-	
 
 }

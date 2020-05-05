@@ -6,22 +6,12 @@ import java.sql.Date;
 @SuppressWarnings("serial")
 public class RequestInfo implements Serializable {
 
-//	private BookInfo bookInfo;
-//	private LibraryUsers userInfo;
-
 	private int requestId;
-
 	private int userId;
 	private int bookId;
-
-	private boolean isIssued;
-	private boolean isReturned;
 	private Date issuedDate;
 	private Date returnedDate;
-	private Date expectedReturnedDate;
-	private double fine;
-	
-	
+	private Date expectedReturnDate;
 
 	public int getRequestId() {
 		return requestId;
@@ -47,20 +37,13 @@ public class RequestInfo implements Serializable {
 		this.bookId = bookId;
 	}
 
-	public double getFine() {
-		return fine;
+
+	public Date getExpectedReturnDate() {
+		return expectedReturnDate;
 	}
 
-	public void setFine(double fine) {
-		this.fine = fine;
-	}
-
-	public Date getExpectedReturnedDate() {
-		return expectedReturnedDate;
-	}
-
-	public void setExpectedReturnedDate(Date expectedReturnedDate) {
-		this.expectedReturnedDate = expectedReturnedDate;
+	public void setExpectedReturnedDate(Date expectedReturnDate) {
+		this.expectedReturnDate = expectedReturnDate;
 	}
 
 	public Date getIssuedDate() {
@@ -79,33 +62,5 @@ public class RequestInfo implements Serializable {
 		this.returnedDate = returnedDate;
 	}
 
-	public boolean isIssued() {
-		return isIssued;
-	}
-
-	public void setIssued(boolean isIssued) {
-		this.isIssued = isIssued;
-	}
-
-	public boolean isReturned() {
-		return isReturned;
-	}
-
-	public void setReturned(boolean isReturned) {
-		this.isReturned = isReturned;
-	}
-//	public BookInfo getBookInfo() {
-//		return bookInfo;
-//	}
-//	public void setBookInfo(BookInfo bookInfo) {
-//		this.bookInfo = bookInfo;
-//	}
-//	public LibraryUsers getUserInfo() {
-//		return userInfo;
-//	}
-//	public void setUserInfo(LibraryUsers userInfo) {
-//		this.userInfo = userInfo;
-//	}
-//	
-
+//	p
 }

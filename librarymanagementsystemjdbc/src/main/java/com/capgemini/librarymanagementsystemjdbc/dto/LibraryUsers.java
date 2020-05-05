@@ -11,6 +11,15 @@ public class LibraryUsers implements Serializable {
 	private String password;
 	private int noOfBooksBorrowed;
 	private String role;
+	private double fine;
+
+	public double getFine() {
+		return fine;
+	}
+
+	public void setFine(double fine) {
+		this.fine = fine;
+	}
 
 	public int getId() {
 		return id;

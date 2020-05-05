@@ -1,14 +1,11 @@
 package com.capgemini.librarymanagementsystemjdbc.dao;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,190 +21,136 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public boolean register(LibraryUsers user) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		try {
-			FileInputStream file = new FileInputStream("library.properties");
+		try (FileInputStream file = new FileInputStream("library.properties")) {
 			Properties properties = new Properties();
 			properties.load(file);
-
 			Class.forName(properties.getProperty("driver"));
 
-			connection = DriverManager.getConnection(properties.getProperty("dburl"));
-
-			statement = connection.prepareStatement(properties.getProperty("insertQuery"));
-
-			statement.setInt(1, user.getId());
-			statement.setString(2, user.getName());
-			statement.setString(3, user.getEmailId());
-			statement.setString(4, user.getPassword());
-			statement.setInt(5, user.getNoOfBooksBorrowed());
-			statement.setString(6, user.getRole());
-
-			noOfRowsAffected = statement.executeUpdate();
-//			System.out.println(noOfRowsAffected);
-
-			if (noOfRowsAffected != 0) {
-				return true;
-			} else {
-				throw new LibraryException("User Already Exists");
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement regUserStmt = connection
+							.prepareStatement(properties.getProperty("insertQuery"));) {
+				regUserStmt.setInt(1, user.getId());
+				regUserStmt.setString(2, user.getName());
+				regUserStmt.setString(3, user.getEmailId());
+				regUserStmt.setString(4, user.getPassword());
+				regUserStmt.setInt(5, user.getNoOfBooksBorrowed());
+				regUserStmt.setString(6, user.getRole());
+				regUserStmt.executeUpdate();
 			}
-
 		} catch (Exception e) {
-			throw new LibraryException("User Already Exists");
-		} finally {
-
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-				if (statement != null) {
-					statement.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			throw new LibraryException("Cannot Register, As User Already Exists");
 		}
-
+		return true;
 	}
 
 	@Override
-	public LibraryUsers authentication(int id, String password) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
+	public boolean adminAuthentication(int id, String password) {
 		LibraryUsers users = new LibraryUsers();
-
-		try {
-			FileInputStream file = new FileInputStream("library.properties");
-			Properties properties = new Properties();
-			properties.load(file);
-
-			Class.forName(properties.getProperty("driver"));
-
-			connection = DriverManager.getConnection(properties.getProperty("dburl"));
-
-			statement = connection.prepareStatement(properties.getProperty("login"));
-
-			statement.setInt(1, id);
-			statement.setString(2, password);
-
-			resultSet = statement.executeQuery();
-
-			if (resultSet.next()) {
-				users.setId(resultSet.getInt("id"));
-				users.setPassword(resultSet.getString("password"));
-				users.setEmailId(resultSet.getString("emailId"));
-				users.setName(resultSet.getString("name"));
-				users.setRole(resultSet.getString("role"));
-				users.setNoOfBooksBorrowed(resultSet.getInt("noOfBooksBorrowed"));
-				return users;
-			}
-			throw new LibraryException("Invalid Credentials");
-		} catch (Exception e) {
-			throw new LibraryException("Invalid  Credentials");
-		} finally {
-
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-				if (statement != null) {
-					statement.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	@Override
-	public boolean addBook(BookInfo book) {
-		Connection connection = null;
-		PreparedStatement statement = null;
-
-		try {
-			FileInputStream file = new FileInputStream("library.properties");
-			Properties properties = new Properties();
-			properties.load(file);
-
-			Class.forName(properties.getProperty("driver"));
-
-			connection = DriverManager.getConnection(properties.getProperty("dburl"));
-
-			statement = connection.prepareStatement(properties.getProperty("insertBook"));
-
-			statement.setInt(1, book.getIsbn());
-			statement.setString(2, book.getBookTitle());
-			statement.setString(3, book.getAuthourName());
-			statement.setDouble(4, book.getPrice());
-			statement.setBoolean(5, book.isAvailable());
-
-			noOfRowsAffected = statement.executeUpdate();
-
-			if (noOfRowsAffected != 0) {
-				return true;
-			} else {
-				throw new LibraryException("Book Cannot be Inserted");
-			}
-		} catch (Exception e) {
-			throw new LibraryException("Book Id Already Exits");
-		} finally {
-			try {
-				if (connection != null) {
-					connection.close();
-				}
-				if (statement != null) {
-					statement.close();
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	@Override
-	public boolean deleteBook(int isbn) {
 
 		try (FileInputStream file = new FileInputStream("library.properties")) {
 			Properties properties = new Properties();
 			properties.load(file);
+			Class.forName(properties.getProperty("driver"));
 
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement statement = connection.prepareStatement(properties.getProperty("adminLogin"))) {
+				statement.setInt(1, id);
+				statement.setString(2, password);
+
+				try (ResultSet resultSet = statement.executeQuery()) {
+					if (resultSet.next()) {
+						users.setId(resultSet.getInt("id"));
+						users.setPassword(resultSet.getString("password"));
+						users.setEmailId(resultSet.getString("emailId"));
+						users.setName(resultSet.getString("name"));
+						users.setRole(resultSet.getString("role"));
+						users.setNoOfBooksBorrowed(resultSet.getInt("noOfBooksBorrowed"));
+						return true;
+					}
+				}
+			}
+		} catch (Exception e) {
+			throw new LibraryException(e.getMessage());
+		}
+		throw new LibraryException("Invalid LogIn Credentials");
+	}
+
+	@Override
+	public boolean userAuthentication(int id, String password) {
+		LibraryUsers users = new LibraryUsers();
+
+		try (FileInputStream file = new FileInputStream("library.properties")) {
+			Properties properties = new Properties();
+			properties.load(file);
+			Class.forName(properties.getProperty("driver"));
+
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement statement = connection.prepareStatement(properties.getProperty("userLogin"))) {
+				statement.setInt(1, id);
+				statement.setString(2, password);
+
+				try (ResultSet resultSet = statement.executeQuery()) {
+					if (resultSet.next()) {
+						users.setId(resultSet.getInt("id"));
+						users.setPassword(resultSet.getString("password"));
+						users.setEmailId(resultSet.getString("emailId"));
+						users.setName(resultSet.getString("name"));
+						users.setRole(resultSet.getString("role"));
+						users.setNoOfBooksBorrowed(resultSet.getInt("noOfBooksBorrowed"));
+						return true;
+					}
+				}
+			}
+		} catch (Exception e) {
+			throw new LibraryException("SomeThing Went Wrong");
+		}
+		throw new LibraryException("Invalid LogIn Credentials");
+	}
+
+	@Override
+	public boolean addBook(BookInfo book) {
+		try (FileInputStream file = new FileInputStream("library.properties")) {
+			Properties properties = new Properties();
+			properties.load(file);
+			Class.forName(properties.getProperty("driver"));
+
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement statement = connection.prepareStatement(properties.getProperty("insertBook"));) {
+				statement.setInt(1, book.getIsbn());
+				statement.setString(2, book.getBookTitle());
+				statement.setString(3, book.getAuthourName());
+				statement.setDouble(4, book.getPrice());
+				statement.setBoolean(5, book.isAvailable());
+				statement.executeUpdate();
+			}
+		} catch (Exception e) {
+			throw new LibraryException("Cannot Add Book, As Book Id Already Exits");
+		}
+		return true;
+	}
+
+	@Override
+	public boolean deleteBook(int isbn) {
+		try (FileInputStream file = new FileInputStream("library.properties")) {
+			Properties properties = new Properties();
+			properties.load(file);
 			Class.forName(properties.getProperty("driver"));
 
 			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
 					PreparedStatement statement = connection.prepareStatement(properties.getProperty("deleteBook"))) {
 
 				statement.setInt(1, isbn);
-
 				noOfRowsAffected = statement.executeUpdate();
-
 				if (noOfRowsAffected != 0) {
 					return true;
 				} else {
 					throw new LibraryException("Book Id Not Exists for Delete");
 				}
-
-			} catch (SQLException e) { // Connection try resource
-				e.printStackTrace();
-				throw new LibraryException("Book Id Not Exists for Delete");
 			}
-
-		} catch (FileNotFoundException e) { // FileInputStream try resource
-			e.printStackTrace();
-			return false;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		} catch (ClassNotFoundException e1) { // Class.forname exception
-			e1.printStackTrace();
-			return false;
+		} catch (Exception e) {
+//			e.printStackTrace();
+			throw new LibraryException(e.getMessage());
 		}
-
 	}
 
 	@Override
@@ -215,13 +158,11 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		try (FileInputStream file = new FileInputStream("library.properties")) {
 			Properties properties = new Properties();
 			properties.load(file);
-
 			Class.forName(properties.getProperty("driver"));
 
 			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
 					Statement statement = connection.createStatement();
 					ResultSet resultSet = statement.executeQuery(properties.getProperty("showBooks"))) {
-
 				List<BookInfo> list = new LinkedList<BookInfo>();
 
 				while (resultSet.next()) {
@@ -235,32 +176,34 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 					list.add(bookInfo);
 				}
-				return list;
 
+				if (list.isEmpty()) {
+					throw new LibraryException("No Books Found In The Library");
+				} else {
+					return list;
+				}
 			}
 		} catch (Exception e) {
-			throw new LibraryException("No List Found");
+			throw new LibraryException(e.getMessage());
 		}
 
 	}
 
 	@Override
-	public List<BookInfo> search(BookInfo bookInfo) {
+	public List<BookInfo> searchBook(BookInfo bookInfo) {
 
 		if (bookInfo.getIsbn() != 0) {
 			try (FileInputStream file = new FileInputStream("library.properties")) {
 				Properties properties = new Properties();
 				properties.load(file);
-
 				Class.forName(properties.getProperty("driver"));
 
 				try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
 						PreparedStatement statement = connection
 								.prepareStatement(properties.getProperty("searchBookById"))) {
-
 					statement.setInt(1, bookInfo.getIsbn());
-					try (ResultSet resultSet = statement.executeQuery()) {
 
+					try (ResultSet resultSet = statement.executeQuery()) {
 						List<BookInfo> list = new LinkedList<BookInfo>();
 
 						if (resultSet.next()) {
@@ -273,7 +216,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 							book.setAvailable(resultSet.getBoolean("isAvailable"));
 
 							list.add(book);
-
 							return list;
 						} else {
 							throw new LibraryException("No Book Found With The Given Id");
@@ -284,7 +226,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 			} // End of Try Resources BookId Search
 			catch (Exception e) {
-				throw new LibraryException("No Book Found With The Given Id");
+				throw new LibraryException(e.getMessage());
 			}
 		} else if (bookInfo.getBookTitle() != null) {
 			try (FileInputStream file = new FileInputStream("library.properties")) {
@@ -310,13 +252,16 @@ public class LibraryDAOImplementation implements LibraryDAO {
 							list.add(book);
 
 						}
+						if (list.isEmpty()) {
+							throw new LibraryException("No Books Found With Given Name");
+						}
 						return list;
 
 					} // End Of Try Resource Result Set
 				} // End Of Try Resource Connection, Prepared Statement
 			} // End Of Try Resources File Input Stream
 			catch (Exception e) {
-				throw new LibraryException("No Books Found With Given Name");
+				throw new LibraryException(e.getMessage());
 			}
 		} else if (bookInfo.getAuthourName() != null) {
 			try (FileInputStream file = new FileInputStream("library.properties")) {
@@ -342,16 +287,19 @@ public class LibraryDAOImplementation implements LibraryDAO {
 							list.add(book);
 
 						}
+						if (list.isEmpty()) {
+							throw new LibraryException("No Books Found With Given Authour");
+						}
 						return list;
 
 					} // End Of Try Resource Result Set
 				} // End Of Try Resource Connection, Prepared Statement
 			} // End Of Try Resources File Input Stream
 			catch (Exception e) {
-				throw new LibraryException("No Books Found With Given Authour");
+				throw new LibraryException(e.getMessage());
 			}
 		} else {
-			throw new LibraryException("Book Not Found");
+			throw new LibraryException("Book Not Found ");
 		}
 
 	} // End Of Book Search
@@ -378,73 +326,97 @@ public class LibraryDAOImplementation implements LibraryDAO {
 					users.setEmailId(resultSet.getString("emailId"));
 					users.setNoOfBooksBorrowed(resultSet.getInt("noOfBooksBorrowed"));
 					users.setRole(resultSet.getString("role"));
+					users.setFine(resultSet.getDouble("fine"));
 
 					list.add(users);
 				}
-				return list;
 
+				if (list.isEmpty()) {
+					throw new LibraryException("No User Found");
+				} else {
+					return list;
+				}
 			}
 		} catch (Exception e) {
-			throw new LibraryException("No Users Found");
+			throw new LibraryException(e.getMessage());
 		}
-
 	}
 
 	@Override
-	public RequestInfo bookRequest(int userId, int bookId) {
-		PreparedStatement statement = null;
-		PreparedStatement statement1 = null;
-		//PreparedStatement statement2 =  null;
-		ResultSet resultSet = null;
+	public boolean bookRequest(int userId, int bookId) {
 		boolean isavail = false;
-		//int noOfRequests = 0;
+		int reqestedBookId = 0;
+		int validBookId = 0;
+		int noOfRequests = 0;
+
 		try (FileInputStream file = new FileInputStream("library.properties")) {
 			Properties properties = new Properties();
 			properties.load(file);
 			Class.forName(properties.getProperty("driver"));
-			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"))) {
-				
-//				statement2 = connection.prepareStatement(properties.getProperty("countRequests"));
-//				statement2.setInt(1, userId);
-//				resultSet = statement2.executeQuery();
-//				
-				
 
-				statement = connection.prepareStatement(properties.getProperty("checkAvailability"));
-				statement.setInt(1, bookId);
-				resultSet = statement.executeQuery();
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					Statement isReqExists = connection.createStatement();
+					PreparedStatement countReqStmt = connection
+							.prepareStatement(properties.getProperty("countRequests"));
+					PreparedStatement statement = connection
+							.prepareStatement(properties.getProperty("checkAvailability"));
+					PreparedStatement statement1 = connection
+							.prepareStatement(properties.getProperty("insertBookRequest"));) {
 
-				System.out.println("outof avial");
-				while (resultSet.next()) {
-					isavail = resultSet.getBoolean(1);
-					System.out.println(isavail);
-				}
-				if (isavail) {
-					statement1 = connection.prepareStatement(properties.getProperty("insertBookRequest"));
-					statement1.setInt(1, userId);
-					statement1.setInt(2, bookId);
-
-					noOfRowsAffected = statement1.executeUpdate();
-					if (noOfRowsAffected != 0) {
-						RequestInfo requestInfo = new RequestInfo();
-
-						requestInfo.setUserId(userId);
-						requestInfo.setBookId(bookId);
-
-						return requestInfo;
-
-					} else {
-						throw new LibraryException("Request Cannot Be Placed");
+				try (ResultSet resultSet = isReqExists.executeQuery(properties.getProperty("showRequests"))) {
+					while (resultSet.next()) {
+						reqestedBookId = resultSet.getInt("bookId");
+						if (reqestedBookId == bookId) {
+							throw new LibraryException("Someone Has Already Placed This Book Request");
+						}
 					}
-				} else {
-					throw new LibraryException("This Book Is Not Available For Borrowing");
-				}
 
-			}
+				}
+				countReqStmt.setInt(1, userId);
+
+				try (ResultSet countSet = countReqStmt.executeQuery()) {
+					if (countSet.next()) {
+						noOfRequests = countSet.getInt(1);
+//						System.out.println("no of req already placed" + noOfRequests);
+					}
+
+					if (noOfRequests < 3) {
+						statement.setInt(1, bookId);
+
+						try (ResultSet isAvailSet = statement.executeQuery();) {
+							while (isAvailSet.next()) {
+								validBookId = isAvailSet.getInt("isbn");
+								isavail = isAvailSet.getBoolean("isAvailable");
+							}
+
+							if (validBookId != 0) {
+								if (isavail) {
+									statement1.setInt(1, userId);
+									statement1.setInt(2, bookId);
+									statement1.executeUpdate();
+
+									RequestInfo requestInfo = new RequestInfo();
+									requestInfo.setUserId(userId);
+									requestInfo.setBookId(bookId);
+
+									return true;
+								} else {
+									throw new LibraryException("Book Is Not Available For Borrowing");
+								}
+							} else {
+								throw new LibraryException("Invalid Book Id");
+							}
+						} // End Of ResultSet
+					} else {
+						throw new LibraryException("Can't Place More Than 3 Requests");
+					}
+				} // End Of Count ResultSet
+
+			} // End Of Try Resource Connection
 
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new LibraryException("Request Cannot Be Placed");
+//			e.printStackTrace();
+			throw new LibraryException(e.getMessage());
 		}
 
 	}
@@ -472,184 +444,126 @@ public class LibraryDAOImplementation implements LibraryDAO {
 					requestInfo.setIssuedDate(resultSet.getDate("issuedDate"));
 					requestInfo.setExpectedReturnedDate(resultSet.getDate("expectedReturnDate"));
 					requestInfo.setReturnedDate(resultSet.getDate("returnedDate"));
-					requestInfo.setFine(resultSet.getDouble("fine"));
 
 					list.add(requestInfo);
 				}
-				return list;
+				if (list.isEmpty()) {
+					throw new LibraryException("No Requests Found");
+				} else {
+					return list;
+				}
 
 			}
 		} catch (Exception e) {
-			throw new LibraryException("No Lists Found");
+			throw new LibraryException(e.getMessage());
 		}
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public boolean isBookIssued(int requestId) {
-		PreparedStatement statement = null;
-		; // , statement1, statement2, statement3, statement4;
-		ResultSet resultSet = null; // , resultSet1, resultSet2, resultSet3, resultSet4, resultSet5;
+
 		try (FileInputStream file = new FileInputStream("library.properties")) {
 			Properties properties = new Properties();
 			properties.load(file);
-
 			Class.forName(properties.getProperty("driver"));
 
-			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"))) {
-				statement = connection.prepareStatement(properties.getProperty("getRequest"));
-				statement.setInt(1, requestId);
-				resultSet = statement.executeQuery();
-				if (resultSet.next()) {
-					RequestInfo info = new RequestInfo();
-					info.setUserId(resultSet.getInt("userId"));
-					info.setBookId(resultSet.getInt("bookId"));
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement getReqStmt = connection.prepareStatement(properties.getProperty("getRequest"));
+					PreparedStatement getUserStmt = connection.prepareStatement(properties.getProperty("getUser"));
+					PreparedStatement issueStmt = connection.prepareStatement(properties.getProperty("issueBook"));
+					PreparedStatement setBookAvailStmt = connection
+							.prepareStatement(properties.getProperty("setBookAvailability"));
+					PreparedStatement setBooksBorrowedStmt = connection
+							.prepareStatement(properties.getProperty("setNoOfBooksBorrowed"));) {
 
-					int requestUserId = info.getUserId();
-					int requestBookId = resultSet.getInt("bookId");
-					if (requestUserId != 0) {
-						statement = connection.prepareStatement(properties.getProperty("getUser"));
+				getReqStmt.setInt(1, requestId);
+				try (ResultSet getReqResSet = getReqStmt.executeQuery();) {
 
-						statement.setInt(1, requestUserId);
-						resultSet = statement.executeQuery();
+					if (getReqResSet.next()) {
+						int requestUserId = getReqResSet.getInt("userId");
+						int requestBookId = getReqResSet.getInt("bookId");
+						getUserStmt.setInt(1, requestUserId);
 
-						if (resultSet.next()) {
-							LibraryUsers users = new LibraryUsers();
-							users.setNoOfBooksBorrowed(resultSet.getInt("noOfBooksBorrowed"));
-							int noOfBooksBorrowed = users.getNoOfBooksBorrowed();
-							System.out.println("no of books Before issue	" + noOfBooksBorrowed);
-							if (noOfBooksBorrowed < 3) {
+						try (ResultSet getUserResSet = getUserStmt.executeQuery();) {
 
-								statement = connection.prepareStatement(properties.getProperty("issueBook"));
+							if (getUserResSet.next()) {
+								LibraryUsers users = new LibraryUsers();
+								users.setNoOfBooksBorrowed(getUserResSet.getInt("noOfBooksBorrowed"));
+								int noOfBooksBorrowed = users.getNoOfBooksBorrowed();
 
-								statement.setInt(1, requestId);
-								int updateDate = statement.executeUpdate();
+								issueStmt.setInt(1, requestId);
+								int updateDate = issueStmt.executeUpdate();
 								if (updateDate != 0) {
-									System.out.println("Dates updated succesfully");
-									System.out.println();
-
 									// Update book availability as false as we are issuing
-									statement = connection
-											.prepareStatement(properties.getProperty("setBookAvailability"));
-									statement.setInt(1, requestBookId);
-									statement.executeUpdate();
+
+									setBookAvailStmt.setInt(1, requestBookId);
+									setBookAvailStmt.executeUpdate();
 
 									// Update User no of books borrowed
 									noOfBooksBorrowed++;
-									statement = connection
-											.prepareStatement(properties.getProperty("setNoOfBooksBorrowed"));
-									statement.setInt(1, noOfBooksBorrowed);
-									statement.setInt(2, requestUserId);
-									statement.executeUpdate();
 
-								} // End of if update date!=0
+									setBooksBorrowedStmt.setInt(1, noOfBooksBorrowed);
+									setBooksBorrowedStmt.setInt(2, requestUserId);
+									setBooksBorrowedStmt.executeUpdate();
 
-								return true;
-
-							} else {
-								throw new LibraryException(
-										"Maximum Borrowed Books Limt Exceeds, Please Return Preveios Books");
+								} else {
+									throw new LibraryException("This Book is Already Issued");
+								}
 							}
-
-						} else {
-							throw new LibraryException("Invalid User");
-						}
+						} // End Of Gettinge User Result Set
 
 					} else {
-						throw new LibraryException("Invalid User");
+						throw new LibraryException("InValid Request Id ");
 					}
+				} // End Of Connection
 
-				} else {
-					throw new LibraryException("InValid Request Id");
-				}
-
-			} // End Of Connection
+			}
 
 		} catch (Exception e) {
-			throw new LibraryException("Invalid Request");
+			throw new LibraryException(e.getMessage());
 
-		} finally {
-			try {
-
-				if (statement != null) {
-					statement.close();
-				}
-				if (resultSet != null) {
-					resultSet.close();
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
-
+		return true;
 	}
 
-	@SuppressWarnings("resource")
 	@Override
 	public boolean bookReturn(int userId, int bookId) {
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
-
 		try (FileInputStream file = new FileInputStream("library.properties")) {
 			Properties properties = new Properties();
 			properties.load(file);
 			Class.forName(properties.getProperty("driver"));
 
-			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"))) {
-				statement = connection.prepareStatement(properties.getProperty("bookReturn"));
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement getReqStmt = connection.prepareStatement(properties.getProperty("getReqDetails"));
+					PreparedStatement updateDateStmt = connection
+							.prepareStatement(properties.getProperty("updateReturnDate"));) {
+				getReqStmt.setInt(1, userId);
+				getReqStmt.setInt(2, bookId);
 
-				statement.setInt(1, userId);
-				statement.setInt(2, bookId);
+				try (ResultSet reqResSet = getReqStmt.executeQuery();) {
+					if (reqResSet.next()) {
+						int requestId = reqResSet.getInt("requestId");
 
-				resultSet = statement.executeQuery();
+						updateDateStmt.setInt(1, requestId);
+						updateDateStmt.executeUpdate();
 
-				if (resultSet.next() != false) {
-					int requestId = resultSet.getInt("requestId");
-					System.out.println("Request Id" + requestId);
-
-					statement = connection.prepareStatement(properties.getProperty("updateReturnDate"));
-					statement.setInt(1, requestId);
-
-					noOfRowsAffected = statement.executeUpdate();
-					if (noOfRowsAffected != 0) {
-						return true;
 					} else {
-						return false;
+						throw new LibraryException("Invalid Return");
 					}
 
-				} else {
-					throw new LibraryException("Invalid Return");
 				}
 
 			}
 
 		} catch (Exception e) {
-			throw new LibraryException("Invalid Return");
-		} finally {
-			try {
-
-				if (statement != null) {
-					statement.close();
-				}
-				if (resultSet != null) {
-					resultSet.close();
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			throw new LibraryException(e.getMessage());
 		}
+		return true;
 
 	}// End Of Book Return
-		// @SuppressWarnings("deprecation")
 
-	@SuppressWarnings("resource")
 	@Override
 	public boolean isBookReceived(int requestId) {
-		PreparedStatement statement = null;
-		ResultSet resultSet = null;
 		int noOfDaysDelayed = 0;
 		int fine = 0;
 		int userId = 0;
@@ -660,84 +574,93 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			properties.load(file);
 
 			Class.forName(properties.getProperty("driver"));
-			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"))) {
-				statement = connection.prepareStatement(properties.getProperty("receiveBook"));
-				statement.setInt(1, requestId);
-				resultSet = statement.executeQuery();
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement getReqStmt = connection.prepareStatement(properties.getProperty("getRequest"));
+					PreparedStatement fineStmt = connection.prepareStatement(properties.getProperty("getfine"));
+					PreparedStatement setFineStmt = connection.prepareStatement(properties.getProperty("userFine"));
+					PreparedStatement setBookAvailStmt = connection
+							.prepareStatement(properties.getProperty("setBookAvailability2"));
+					PreparedStatement setNoOfBooksStmt = connection
+							.prepareStatement(properties.getProperty("setNoOfBooksBorrowed2"));
+					PreparedStatement removeReqStmt = connection
+							.prepareStatement(properties.getProperty("removeRequest"));) {
 
-				while (resultSet.next()) {
-					// Date issuedDate = resultSet.getDate("issuedDate");
-					Date returnedDate = resultSet.getDate("returnedDate");
-					Date expectedReturnedDate = resultSet.getDate("expectedReturnDate");
-					userId = resultSet.getInt("userId");
-					boodId = resultSet.getInt("bookId");
+				getReqStmt.setInt(1, requestId);
+				try (ResultSet reqResSet = getReqStmt.executeQuery();) {
+					while (reqResSet.next()) {
+						Date returnedDate = reqResSet.getDate("returnedDate");
+						Date expectedReturnedDate = reqResSet.getDate("expectedReturnDate");
+						userId = reqResSet.getInt("userId");
+						boodId = reqResSet.getInt("bookId");
 
-					if (returnedDate != null) {
-						statement = connection.prepareStatement(properties.getProperty("getfine"));
-						statement.setDate(1, returnedDate);
-						statement.setDate(2, expectedReturnedDate);
-						statement.setInt(3, requestId);
+						if (returnedDate != null) {
+							fineStmt.setDate(1, returnedDate);
+							fineStmt.setDate(2, expectedReturnedDate);
+							fineStmt.setInt(3, requestId);
 
-						resultSet = statement.executeQuery();
-
-						while (resultSet.next()) {
-							noOfDaysDelayed = resultSet.getInt(1);
-						}
-						if (noOfDaysDelayed > 0) {
-							fine = noOfDaysDelayed * 5;
-							statement = connection.prepareStatement(properties.getProperty("userFine"));
-							statement.setInt(1, fine);
-							statement.setInt(2, userId);
-
-							noOfRowsAffected = statement.executeUpdate();
-							if (noOfRowsAffected != 0) {
-								System.out.println("fine updated" + fine);
+							try (ResultSet fineResSet = fineStmt.executeQuery();) {
+								while (fineResSet.next()) {
+									noOfDaysDelayed = fineResSet.getInt(1);
+								}
 							}
 
+							if (noOfDaysDelayed > 0) {
+								fine = noOfDaysDelayed * 5;
+
+								setFineStmt.setInt(1, fine);
+								setFineStmt.setInt(2, userId);
+								setFineStmt.executeUpdate();
+							}
+
+							// Make available in libaray books
+							setBookAvailStmt.setInt(1, boodId);
+							setBookAvailStmt.executeUpdate();
+
+							// set No Of Books Borrowed
+							setNoOfBooksStmt.setInt(1, userId);
+							setNoOfBooksStmt.executeUpdate();
+
+							removeReqStmt.setInt(1, requestId);
+							removeReqStmt.executeUpdate();
+
+							return true;
+
+						} else {
+							throw new LibraryException("Book Not Yet Returned, So You Can't Receive");
 						}
-
-						// Make available in libaray books
-						statement = connection.prepareStatement(properties.getProperty("setBookAvailability2"));
-						statement.setInt(1, boodId);
-						noOfRowsAffected = statement.executeUpdate();
-
-						// set No Of Books Borrowed
-						statement = connection.prepareStatement(properties.getProperty("setNoOfBooksBorrowed2"));
-						statement.setInt(1, userId);
-						noOfRowsAffected = statement.executeUpdate();
-
-						statement = connection.prepareStatement(properties.getProperty("removeRequest"));
-						statement.setInt(1, requestId);
-
-						noOfRowsAffected = statement.executeUpdate();
-
-						return true;
-
-					}
-
-				} // End Of While Loop
-				throw new LibraryException("Book Not Yet Returned");
-
+					} // End Of While Loop
+				}
+				throw new LibraryException("Invalid Request Id");
 			} // End of connection resource
-
 		} catch (Exception e) {
-			throw new LibraryException("Unable to Receive");
-		} finally {
-			try {
-
-				if (statement != null) {
-					statement.close();
-				}
-				if (resultSet != null) {
-					resultSet.close();
-				}
-
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
+			throw new LibraryException(e.getMessage());
 		}
 
 	}// End Of Book Receive
 
+	@Override
+	public boolean changePassword(int userId, String oldPassword, String newPassword) {
+		try (FileInputStream file = new FileInputStream("library.properties")) {
+			Properties properties = new Properties();
+			properties.load(file);
+
+			Class.forName(properties.getProperty("driver"));
+			try (Connection connection = DriverManager.getConnection(properties.getProperty("dburl"));
+					PreparedStatement setPasswordSt = connection
+							.prepareStatement(properties.getProperty("setPassword"))) {
+				setPasswordSt.setString(1, newPassword);
+				setPasswordSt.setString(2, oldPassword);
+				setPasswordSt.setInt(3, userId);
+
+				noOfRowsAffected = setPasswordSt.executeUpdate();
+				if (noOfRowsAffected != 0) {
+					return true;
+				}
+			}
+			throw new LibraryException("Invalid Credentials");
+		} catch (Exception e) {
+			throw new LibraryException(e.getMessage());
+		}
+
+	}
 }

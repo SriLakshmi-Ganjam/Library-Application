@@ -18,8 +18,13 @@ public class LibraryServiceImplementation implements LibraryService {
 	}
 
 	@Override
-	public LibraryUsers authentication(int id, String password) {
-		return dao.authentication(id, password);
+	public boolean adminAuthentication(int id, String password) {
+		return dao.adminAuthentication(id, password);
+	}
+
+	@Override
+	public boolean userAuthentication(int id, String password) {
+		return dao.userAuthentication(id, password);
 	}
 
 	@Override
@@ -38,8 +43,8 @@ public class LibraryServiceImplementation implements LibraryService {
 	}
 
 	@Override
-	public List<BookInfo> search(BookInfo bookInfo) {
-		return dao.search(bookInfo);
+	public List<BookInfo> searchBook(BookInfo bookInfo) {
+		return dao.searchBook(bookInfo);
 	}
 
 	@Override
@@ -63,13 +68,18 @@ public class LibraryServiceImplementation implements LibraryService {
 	}
 
 	@Override
-	public RequestInfo bookRequest(int  userId, int bookId) {
+	public boolean bookRequest(int userId, int bookId) {
 		return dao.bookRequest(userId, bookId);
 	}
 
 	@Override
 	public boolean bookReturn(int userId, int bookId) {
 		return dao.bookReturn(userId, bookId);
+	}
+
+	@Override
+	public boolean changePassword(int userId, String oldPassword, String newPassword) {
+		return dao.changePassword(userId, oldPassword, newPassword);
 	}
 
 }

@@ -7,6 +7,7 @@ import com.capgemini.librarymanagementsystem.dto.RequestInfo;
 import com.capgemini.librarymanagementsystem.dto.UserInfo;
 
 public interface LibraryService {
+	
 	boolean register(UserInfo user);
 
 	boolean adminAuthentication(String adminEmailId, String adminPassword);
@@ -32,5 +33,7 @@ public interface LibraryService {
 	boolean bookRequest(int userId, int bookId);
 
 	boolean bookReturn(int userId, int bookId);
+	
+	boolean changePassword(int userId, String oldPassword, String newPassword);
 
 }

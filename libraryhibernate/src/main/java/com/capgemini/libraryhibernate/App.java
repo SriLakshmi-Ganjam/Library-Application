@@ -1,4 +1,4 @@
-package com.capgemini.librarymanagementsystem;
+package com.capgemini.libraryhibernate;
 
 /**
  * Hello world!

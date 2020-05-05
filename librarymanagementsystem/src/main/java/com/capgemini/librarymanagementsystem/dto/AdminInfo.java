@@ -5,10 +5,22 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class AdminInfo implements Serializable {
 
-	private int adminId = 1;
-	private String adminName = "sri";
-	private String adminPassword = "Sri@1234";
-	private String adminEmailId = "sri@gmail.com";
+	private int adminId;
+	private String adminName;
+	private String adminEmailId;
+	private String adminPassword;	
+
+	public AdminInfo() {
+
+	}
+
+	public AdminInfo(int adminId, String adminName, String adminEmailId, String adminPassword) {
+		super();
+		this.adminId = adminId;
+		this.adminName = adminName;
+		this.adminEmailId = adminEmailId;
+		this.adminPassword = adminPassword;
+	}
 
 	public int getAdminId() {
 		return adminId;
@@ -42,4 +54,11 @@ public class AdminInfo implements Serializable {
 		this.adminEmailId = adminEmailId;
 	}
 
+	@Override
+	public String toString() {
+		return "AdminInfo [adminId=" + adminId + ", adminName=" + adminName + ", adminEmailId=" + adminEmailId
+				+ ", adminPassword=" + adminPassword + "]";
+	}
+
+	
 }

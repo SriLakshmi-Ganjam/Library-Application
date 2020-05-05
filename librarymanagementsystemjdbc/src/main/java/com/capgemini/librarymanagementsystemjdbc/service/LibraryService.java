@@ -7,9 +7,12 @@ import com.capgemini.librarymanagementsystemjdbc.dto.RequestInfo;
 import com.capgemini.librarymanagementsystemjdbc.dto.LibraryUsers;
 
 public interface LibraryService {
+
 	boolean register(LibraryUsers user);
 
-	LibraryUsers authentication(int id, String password);
+	boolean adminAuthentication(int id, String password);
+
+	boolean userAuthentication(int id, String password);
 
 	boolean addBook(BookInfo book);
 
@@ -17,9 +20,9 @@ public interface LibraryService {
 
 	List<BookInfo> showBooks();
 
-	List<BookInfo> search(BookInfo bookInfo);
-
 	List<LibraryUsers> showUsers();
+
+	List<BookInfo> searchBook(BookInfo bookInfo);
 
 	List<RequestInfo> showRequests();
 
@@ -29,12 +32,10 @@ public interface LibraryService {
 
 	// USER INTERFACE
 
-	RequestInfo bookRequest(int userId, int bookId);
+	boolean bookRequest(int userId, int bookId);
 
-	//RequestInfo bookReturn(LibraryUsers userInfo, BookInfo bookInfo);
-	
 	boolean bookReturn(int userId, int bookId);
-
-
+	
+	boolean changePassword(int userId, String oldPassword, String newPassword);
 
 }

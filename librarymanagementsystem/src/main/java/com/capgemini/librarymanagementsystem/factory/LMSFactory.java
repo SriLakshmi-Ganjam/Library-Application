@@ -6,7 +6,7 @@ import com.capgemini.librarymanagementsystem.service.LibraryService;
 import com.capgemini.librarymanagementsystem.service.LibraryServiceImplementation;
 
 public class LMSFactory {
-	
+
 	public static LibraryDAO getLibraryDAO() {
 		return new LibraryDAOImplementation();
 	}

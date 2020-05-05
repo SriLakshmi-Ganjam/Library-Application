@@ -76,4 +76,9 @@ public class LibraryServiceImplementation implements LibraryService {
 		return dao.bookReturn(userId, bookId);
 	}
 
+	@Override
+	public boolean changePassword(int userId, String oldPassword, String newPassword) {
+		return dao.changePassword(userId, oldPassword, newPassword);
+	}
+
 }

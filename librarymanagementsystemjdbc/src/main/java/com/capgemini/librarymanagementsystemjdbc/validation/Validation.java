@@ -1,33 +1,36 @@
 package com.capgemini.librarymanagementsystemjdbc.validation;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.capgemini.librarymanagementsystemjdbc.exception.LibraryException;
 
 public class Validation {
 
-	public boolean validatedId(int id) throws LibraryException{
-		String idRegx = "[\\d&&[^0]][\\d]{4}";
+	public boolean validateId(int id) throws LibraryException {
+		String idRegx = "[\\d&&[^0]][\\d]{2}";
 		boolean isValidated = Pattern.matches(idRegx, String.valueOf(id));
 		if (isValidated) {
 			return true;
 		} else {
-			throw new LibraryException("Id should contain 5 digits and first letter should be non zero digit");
+			throw new LibraryException("Id should contain 3 digits and first letter should be non zero digit");
 		}
 	}
-	
-	public boolean validatedName(String name) throws LibraryException{
-		String nameRegx = "\\D{2,50}";
 
-		boolean isValidated = Pattern.matches(nameRegx, name);
-		if (isValidated) {
-			return true;
+	public boolean validateName(String name) throws LibraryException {
+		String nameRegEx = "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$";
+		boolean result = false;
+		Pattern pattern = Pattern.compile(nameRegEx);
+		Matcher matcher = pattern.matcher(name);
+		if (matcher.matches()) {
+			result = true;
 		} else {
-			throw new LibraryException("Name should contain atleast 2 characters and alphabets only");
+			throw new LibraryException("Name should contains only Alpabates");
 		}
-		
+		return result;
 	}
-	public boolean validatedEmail(String email) throws LibraryException{
+
+	public boolean validateEmail(String email) throws LibraryException {
 		String emailRegx = "[\\w&&[^_]]{3,50}[@]{1}\\D{2,50}[.]{1}\\D{2,50}";
 		boolean isValidated = Pattern.matches(emailRegx, email);
 		if (isValidated) {
@@ -36,9 +39,9 @@ public class Validation {
 			throw new LibraryException("EmailId Should contain  @ and extensions(.com,.in,.org)");
 		}
 	}
-	
-	public boolean validatedPassword(String password) throws LibraryException{
-		String passwordRegx = "^.{4,8}$";
+
+	public boolean validatePassword(String password) throws LibraryException {
+		String passwordRegx = "^.{4,10}$";
 		boolean isValidated = Pattern.matches(passwordRegx, password);
 		if (isValidated) {
 			return true;
