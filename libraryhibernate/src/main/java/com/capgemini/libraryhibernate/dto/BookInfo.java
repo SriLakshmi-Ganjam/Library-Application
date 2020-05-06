@@ -1,13 +1,10 @@
 package com.capgemini.libraryhibernate.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -62,8 +59,8 @@ public class BookInfo implements Serializable {
 	}
 	
 	
-	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "books")
-	private List<RequestInfo> request;
-	
+//	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "books")
+//	private List<RequestInfo> request;
+//	
 
 }

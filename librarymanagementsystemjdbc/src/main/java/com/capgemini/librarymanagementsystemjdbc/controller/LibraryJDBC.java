@@ -59,7 +59,7 @@ public class LibraryJDBC {
 				flag = true;
 			} catch (InputMismatchException e) {
 				flag = false;
-				System.err.println("Id Should contains only digits(0-9)");
+				System.err.println("Id Should contains only digits");
 				scanner.next();
 			} catch (LibraryException e) {
 				flag = false;
@@ -229,8 +229,13 @@ public class LibraryJDBC {
 						switch (check) {
 						case 1:
 							System.out.println("Enter User Registration Details");
-							System.out.println("Enter user id :");
-							userId = checkId();
+//							System.out.println("Enter user id :");
+//							userId = checkId();
+							userId = (int) (Math.random()*1000);
+							if(userId <= 100) {
+								userId =userId + 100;
+							}
+							System.out.println("user Id:"+userId );
 							scanner.nextLine();
 							System.out.println("Enter user name");
 							name = checkName();
@@ -259,8 +264,15 @@ public class LibraryJDBC {
 						case 2:
 							System.out.println("Adding Book To Library ");
 							System.out.println("-------------------------");
-							System.out.println("Enter book Id: ");
-							bookId = checkId();
+//							System.out.println("Enter book Id: ");
+//							bookId = checkId();
+							
+							bookId = (int) (Math.random()*1000);
+							if(bookId <= 100) {
+								bookId =bookId + 100;
+							}
+							System.out.println("Book Id : "+bookId);
+							
 							System.out.println("Enter book Book Title: ");
 							scanner.nextLine();
 							bookTitle = checkName();
@@ -323,14 +335,6 @@ public class LibraryJDBC {
 								}
 								System.out.println();
 
-//								for (BookInfo book : allBooks) {
-//									System.out.println("Book id ----------> " + book.getIsbn());
-//									System.out.println("Book Name --------> " + book.getBookTitle());
-//									System.out.println("Book Authour------> " + book.getAuthourName());
-//									System.out.println("Book Price -------> " + book.getPrice());
-//									System.out.println("Book Available ---> " + book.isAvailable());
-//									System.out.println("-------------------------------");
-//								}
 							} catch (LibraryException e) {
 								System.err.println(e.getMessage());
 							}
@@ -487,15 +491,6 @@ public class LibraryJDBC {
 								}
 								System.out.println();
 
-
-//								for (BookInfo book : allBooks) {
-//									System.out.println("Book Id:--------------------> " + book.getIsbn());
-//									System.out.println("Book Title:-----------------> " + book.getBookTitle());
-//									System.out.println("Book Authour:---------------> " + book.getAuthourName());
-//									System.out.println("Book Price:-----------------> " + book.getPrice());
-//									System.out.println("Book is Available ----------> " + book.isAvailable());
-//									System.out.println("------------------------------------------------------");
-//								}
 							} catch (LibraryException e) {
 								System.err.println(e.getMessage());
 							}

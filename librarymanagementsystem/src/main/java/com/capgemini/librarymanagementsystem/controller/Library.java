@@ -335,13 +335,13 @@ public class Library {
 								System.out.println("Requests for Books are :");
 								System.out.println("-----------------------");
 
-								System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-25s %-15s", "USER ID",
+								System.out.println(String.format("%-10s %-10s %-15s %-15s %-35s %-35s %-35s", "USER ID",
 										"BOOK ID", "IS ISSUED", "IS RETURNED", "ISSUED DATE", "EXPECTED RETURNED DATE",
 										"RETURNED DATE"));
 
 								for (RequestInfo info : requestInfos) {
 
-									System.out.println(String.format("%-10s %-10s %-15s %-15s %-15s %-25s %-15s",
+									System.out.println(String.format("%-10s %-10s %-15s %-15s %-35s %-35s %-35s",
 											info.getUserId(), info.getBookId(), info.isIssued(), info.isReturned(),
 											info.getIssuedDate(), info.getExpectedReturnedDate(),
 											info.getReturnedDate()));

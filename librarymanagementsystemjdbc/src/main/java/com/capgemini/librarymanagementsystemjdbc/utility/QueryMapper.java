@@ -1,6 +1,6 @@
 package com.capgemini.librarymanagementsystemjdbc.utility;
 
-public class QueryMapper {
+public interface QueryMapper {
 
 	String insertQuery = "insert into libraryusers (id,name,emailId,password,noOfBooksBorrowed,role) values(?,?,?,?,?,?)";
 
