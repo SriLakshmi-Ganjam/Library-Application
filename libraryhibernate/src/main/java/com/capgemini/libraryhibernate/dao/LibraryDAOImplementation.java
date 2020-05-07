@@ -1,8 +1,8 @@
 package com.capgemini.libraryhibernate.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,9 +19,10 @@ import com.capgemini.libraryhibernate.exception.LibraryException;
 
 public class LibraryDAOImplementation implements LibraryDAO {
 
+	private EntityManagerFactory factory;
+
 	@Override
 	public boolean register(LibraryUsers user) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		String jpql = null;
@@ -62,7 +63,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 	@Override
 	public boolean adminAuthentication(int id, String password) {
 		LibraryUsers users = new LibraryUsers();
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -96,7 +96,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 	@Override
 	public boolean userAuthentication(int id, String password) {
 		LibraryUsers users = new LibraryUsers();
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -124,7 +123,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public boolean addBook(BookInfo book) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
@@ -140,14 +138,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException("Book Already Exists");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
 
 	@Override
 	public boolean deleteBook(int isbn) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -166,13 +162,11 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException("Book Can't Be Removed,No Book Found With Given Id");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
 	@Override
 	public List<BookInfo> showBooks() {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -191,14 +185,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
 
 	@Override
 	public List<LibraryUsers> showUsers() {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 
 		try {
@@ -218,7 +210,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
@@ -226,10 +217,9 @@ public class LibraryDAOImplementation implements LibraryDAO {
 	@Override
 	public List<BookInfo> searchBook(BookInfo bookInfo) {
 		EntityManager manager = null;
-		EntityManagerFactory factory = null;
 
 		BookInfo info = new BookInfo();
-		List<BookInfo> list = new LinkedList<BookInfo>();
+		List<BookInfo> list = new ArrayList<BookInfo>();
 
 		String jpql = null;
 		int id = bookInfo.getIsbn();
@@ -242,7 +232,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			if (id != 0) {
 				info = manager.find(BookInfo.class, id);
 				if (info != null) {
-//					System.out.println("book id found is" + info.getIsbn());
 					list.add(info);
 					return list;
 				} else {
@@ -282,14 +271,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
 
 	@Override
 	public List<RequestInfo> showRequests() {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 
 		try {
@@ -308,14 +295,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
 
 	@Override
 	public boolean bookRequest(int userId, int bookId) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -351,7 +336,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 					}
 
 					if (bookInfo.isAvailable()) {
-						System.out.println("tans started");
+//						System.out.println("tans started");
 						transaction.begin();
 						info.setUserId(userId);
 						info.setBookId(bookId);
@@ -374,14 +359,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 		return true;
 	}
 
 	@Override
 	public boolean isBookIssued(int requestId) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -448,14 +431,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean bookReturn(int userId, int bookId) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -503,7 +484,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 		return true;
@@ -511,7 +491,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public boolean isBookReceived(int requestId) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -583,14 +562,12 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 		return true;
 	}
 
 	@Override
 	public boolean changePassword(int userId, String oldPassword, String newPassword) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -615,7 +592,6 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 		return true;
 	}

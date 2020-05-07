@@ -4,16 +4,18 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "librarybooks")
 public class BookInfo implements Serializable {
 	@Id
+	@GeneratedValue
 	private int isbn;
 	@Column
 	private String bookTitle;
@@ -21,44 +23,52 @@ public class BookInfo implements Serializable {
 	private String authourName;
 	@Column
 	private double price;
-	@Column(columnDefinition = "TINYINT")
-	@Type(type = "org.hibernate.type.NumericBooleanType")
+
+//	@Column	(columnDefinition = "TINYINT")
+//	@Type(type = "org.hibernate.type.NumericBooleanType")
+	@JsonProperty
 	private boolean isAvailable;
-	
-	
+
 	public boolean isAvailable() {
 		return isAvailable;
 	}
+
 	public void setAvailable(boolean isAvailable) {
 		this.isAvailable = isAvailable;
 	}
+
 	public int getIsbn() {
 		return isbn;
 	}
+
 	public void setIsbn(int isbn) {
 		this.isbn = isbn;
 	}
+
 	public String getBookTitle() {
 		return bookTitle;
 	}
+
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
 	}
-	
+
 	public String getAuthourName() {
 		return authourName;
 	}
+
 	public void setAuthourName(String authourName) {
 		this.authourName = authourName;
 	}
+
 	public double getPrice() {
 		return price;
 	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
+
 //	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "books")
 //	private List<RequestInfo> request;
 //	

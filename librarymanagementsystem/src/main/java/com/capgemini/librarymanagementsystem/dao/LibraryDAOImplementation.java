@@ -1,8 +1,8 @@
 package com.capgemini.librarymanagementsystem.dao;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import com.capgemini.librarymanagementsystem.db.DataBase;
@@ -76,7 +76,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public List<BookInfo> showBooks() {
-		List<BookInfo> booksList = new LinkedList<BookInfo>();
+		List<BookInfo> booksList = new ArrayList<BookInfo>();
 
 		for (BookInfo book : DataBase.BOOKDB) {
 			book.getIsbn();
@@ -97,7 +97,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public List<BookInfo> searchBook(BookInfo bookInfo) {
-		List<BookInfo> booksList = new LinkedList<BookInfo>();
+		List<BookInfo> booksList = new ArrayList<BookInfo>();
 
 		for (BookInfo bookBean : DataBase.BOOKDB) {
 
@@ -120,7 +120,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public List<UserInfo> showUsers() {
-		List<UserInfo> usersList = new LinkedList<UserInfo>();
+		List<UserInfo> usersList = new ArrayList<UserInfo>();
 
 		for (UserInfo userInfo : DataBase.USERDB) {
 			userInfo.getUserId();
@@ -140,7 +140,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public List<RequestInfo> showRequests() {
-		List<RequestInfo> requestsList = new LinkedList<RequestInfo>();
+		List<RequestInfo> requestsList = new ArrayList<RequestInfo>();
 
 		for (RequestInfo requestInfo : DataBase.REQUESTDB) {
 			requestInfo.getBookId();

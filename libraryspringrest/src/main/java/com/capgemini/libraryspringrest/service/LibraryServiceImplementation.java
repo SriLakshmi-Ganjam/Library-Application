@@ -2,15 +2,19 @@ package com.capgemini.libraryspringrest.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.capgemini.libraryspringrest.dao.LibraryDAO;
 import com.capgemini.libraryspringrest.dto.BookInfo;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
-import com.capgemini.libraryspringrest.factory.LibraryFactory;
 
+@Service
 public class LibraryServiceImplementation implements LibraryService {
 
-	private LibraryDAO dao = LibraryFactory.getLibraryDAO();
+	@Autowired
+	private LibraryDAO dao;
 
 	@Override
 	public boolean register(LibraryUsers user) {
