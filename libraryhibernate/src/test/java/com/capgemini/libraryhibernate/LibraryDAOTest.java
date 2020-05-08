@@ -1,17 +1,17 @@
-package com.capgemini.librarymanagementsystemjdbc;
+package com.capgemini.libraryhibernate;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.capgemini.librarymanagementsystemjdbc.dao.LibraryDAO;
-import com.capgemini.librarymanagementsystemjdbc.dao.LibraryDAOImplementation;
-import com.capgemini.librarymanagementsystemjdbc.dto.BookInfo;
-import com.capgemini.librarymanagementsystemjdbc.dto.LibraryUsers;
-import com.capgemini.librarymanagementsystemjdbc.dto.RequestInfo;
+import com.capgemini.libraryhibernate.dao.LibraryDAO;
+import com.capgemini.libraryhibernate.dao.LibraryDAOImplementation;
+import com.capgemini.libraryhibernate.dto.BookInfo;
+import com.capgemini.libraryhibernate.dto.LibraryUsers;
+import com.capgemini.libraryhibernate.dto.RequestInfo;
 
-public class LibraryDaoTest {
+public class LibraryDAOTest {
 	private LibraryDAO dao = new LibraryDAOImplementation();
 
 	@Test
@@ -98,6 +98,7 @@ public class LibraryDaoTest {
 		boolean status = dao.bookReturn(444, 333);
 		Assertions.assertTrue(status);
 	}
+
 //
 	@Test
 	public void testReceive() {
@@ -117,7 +118,6 @@ public class LibraryDaoTest {
 		Assertions.assertTrue(status);
 	}
 
-
 	@Test
 	public void testSearchById() {
 		BookInfo info = new BookInfo();
@@ -126,7 +126,7 @@ public class LibraryDaoTest {
 
 		Assertions.assertNotNull(list);
 	}
-	
+
 	@Test
 	public void testSearchByName() {
 		BookInfo info = new BookInfo();
@@ -135,7 +135,7 @@ public class LibraryDaoTest {
 
 		Assertions.assertNotNull(list);
 	}
-	
+
 	@Test
 	public void testSearchByAuthour() {
 		BookInfo info = new BookInfo();
@@ -144,6 +144,5 @@ public class LibraryDaoTest {
 
 		Assertions.assertNotNull(list);
 	}
-	
 
 }

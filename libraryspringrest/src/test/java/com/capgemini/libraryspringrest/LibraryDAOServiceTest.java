@@ -1,23 +1,24 @@
-package com.capgemini.librarymanagementsystemjdbc;
+package com.capgemini.libraryspringrest;
 
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.capgemini.librarymanagementsystemjdbc.dao.LibraryDAO;
-import com.capgemini.librarymanagementsystemjdbc.dao.LibraryDAOImplementation;
-import com.capgemini.librarymanagementsystemjdbc.dto.BookInfo;
-import com.capgemini.librarymanagementsystemjdbc.dto.LibraryUsers;
-import com.capgemini.librarymanagementsystemjdbc.dto.RequestInfo;
+import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryUsers;
+import com.capgemini.libraryspringrest.dto.RequestInfo;
+import com.capgemini.libraryspringrest.service.LibraryService;
 
-public class LibraryDaoTest {
-	private LibraryDAO dao = new LibraryDAOImplementation();
+public class LibraryDAOServiceTest {
+	@Autowired
+	private LibraryService dao;
 
 	@Test
 	public void testAddBook() {
 		BookInfo bookInfo = new BookInfo();
-		bookInfo.setIsbn(999);
+		bookInfo.setIsbn(201);
 		bookInfo.setAuthourName("Savi Sharma");
 		bookInfo.setBookTitle("Every One Has A Story");
 		bookInfo.setPrice(250);
@@ -28,7 +29,7 @@ public class LibraryDaoTest {
 
 	public void testAddBook2() {
 		BookInfo bookInfo = new BookInfo();
-		bookInfo.setIsbn(888);
+		bookInfo.setIsbn(202);
 		bookInfo.setAuthourName("Savi Sharma");
 		bookInfo.setBookTitle("Every One Has A Story");
 		bookInfo.setPrice(250);
@@ -39,7 +40,7 @@ public class LibraryDaoTest {
 
 	@Test
 	public void testDeleteBook() {
-		boolean status = dao.deleteBook(888);
+		boolean status = dao.deleteBook(201);
 		Assertions.assertTrue(status);
 
 	}
@@ -47,8 +48,8 @@ public class LibraryDaoTest {
 	@Test
 	public void testRegister() {
 		LibraryUsers info = new LibraryUsers();
-		info.setId(901);
-		info.setEmailId("sai@gmail.com");
+		info.setId(202);
+		info.setEmailId("saig@gmail.com");
 		info.setName("Sai");
 		info.setPassword("sril");
 		info.setRole("Admin");
@@ -83,7 +84,7 @@ public class LibraryDaoTest {
 
 	@Test
 	public void testRequest() {
-		boolean status = dao.bookRequest(444, 333);
+		boolean status = dao.bookRequest(201, 201);
 		Assertions.assertTrue(status);
 	}
 
@@ -95,9 +96,10 @@ public class LibraryDaoTest {
 
 	@Test
 	public void testReturn() {
-		boolean status = dao.bookReturn(444, 333);
+		boolean status = dao.bookReturn(201, 201);
 		Assertions.assertTrue(status);
 	}
+
 //
 	@Test
 	public void testReceive() {
@@ -110,40 +112,4 @@ public class LibraryDaoTest {
 		boolean status = dao.userAuthentication(333, "padma");
 		Assertions.assertTrue(status);
 	}
-
-	@Test
-	public void testChangePassword() {
-		boolean status = dao.changePassword(111, "sril", "lakshmi");
-		Assertions.assertTrue(status);
-	}
-
-
-	@Test
-	public void testSearchById() {
-		BookInfo info = new BookInfo();
-		info.setIsbn(111);
-		List<BookInfo> list = dao.searchBook(info);
-
-		Assertions.assertNotNull(list);
-	}
-	
-	@Test
-	public void testSearchByName() {
-		BookInfo info = new BookInfo();
-		info.setBookTitle("life");
-		List<BookInfo> list = dao.searchBook(info);
-
-		Assertions.assertNotNull(list);
-	}
-	
-	@Test
-	public void testSearchByAuthour() {
-		BookInfo info = new BookInfo();
-		info.setAuthourName("sri");
-		List<BookInfo> list = dao.searchBook(info);
-
-		Assertions.assertNotNull(list);
-	}
-	
-
 }

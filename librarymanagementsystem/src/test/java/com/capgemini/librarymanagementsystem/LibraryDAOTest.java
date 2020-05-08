@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import com.capgemini.librarymanagementsystem.dao.LibraryDAO;
 import com.capgemini.librarymanagementsystem.dao.LibraryDAOImplementation;
 import com.capgemini.librarymanagementsystem.dto.BookInfo;
-import com.capgemini.librarymanagementsystem.dto.RequestInfo;
 import com.capgemini.librarymanagementsystem.dto.UserInfo;
 
 public class LibraryDAOTest {
@@ -91,18 +90,6 @@ public class LibraryDAOTest {
 	
 	
 	@Test
-	public void testShowUsers() {
-		List<UserInfo> list = dao.showUsers();
-		Assertions.assertNotNull(list);
-	}
-	
-	@Test
-	public void testShowUsersEmpty() {
-		List<UserInfo> list = dao.showUsers();
-		Assertions.assertNull(list);
-	}
-	
-	@Test
 	public void testRequest() {		
 		boolean status = dao.bookRequest(111, 111);
 //		RequestInfo info = new RequestInfo();
@@ -110,11 +97,6 @@ public class LibraryDAOTest {
 		Assertions.assertTrue(status);		
 	}
 	
-	@Test
-	public void testShowReqs() {
-		List<RequestInfo> list = dao.showRequests();
-		Assertions.assertNotNull(list);
-	}
 	
 	@Test
 	public void testIssue() {
@@ -148,12 +130,6 @@ public class LibraryDAOTest {
 		Assertions.assertTrue(status);		
 	}
 	
-	@Test
-	public void testAdminLogin() {
-		boolean status = dao.adminAuthentication("sri@gmail.com", "sril");
-		Assertions.assertTrue(status);		
-	}
-
 }
 
 
