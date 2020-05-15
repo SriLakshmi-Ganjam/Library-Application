@@ -1,0 +1,35 @@
+
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='message2'>{{message2}}</div>
+<div class="container mt-4">
+    <table class="table table-hover table-bordered">
+        <thead style="color: white; background: black;">
+            <!-- <tr style="color:rgb(238, 230, 230)"> -->
+                <tr>
+                <th>Request Id</th>
+                <th>User Id</th>
+                <th>Book Id</th>
+                <th>Issue Date</th>
+                <th>Expected Return Date</th>
+                <th>Return Date</th>
+               
+                <th>Receive</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let request of requests'>
+                <td>{{request.requestId}}</td>
+                <td>{{request.userId}}</td>
+                <td>{{request.bookId}}</td>
+                <td>{{request.issuedDate}}</td>
+                <td>{{request.expectedReturnDate}}</td>
+                <td>{{request.returnedDate}}</td>                
+                <!-- <td ><button class= "btn btn-danger " (click) = 'getRequestedBooks'>Issue</button></td> -->
+                <td ><button class= "btn btn-black " (click) = 'receive(request)'>Receive</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+

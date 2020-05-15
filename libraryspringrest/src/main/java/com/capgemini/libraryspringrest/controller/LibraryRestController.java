@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.libraryspringrest.dto.BookInfo;
@@ -19,55 +19,90 @@ import com.capgemini.libraryspringrest.dto.RequestInfo;
 import com.capgemini.libraryspringrest.service.LibraryService;
 
 @RestController
+@CrossOrigin(origins = "*",allowedHeaders = "*",allowCredentials = "true")
 public class LibraryRestController {
 
 	@Autowired
 	private LibraryService service;
 
-//	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST, consumes = {
-//			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
-//					MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@GetMapping(path = "/getReqBooks", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse getReqBooks() {
+		List<RequestInfo> requestInfo = service.getRequestedBooks();
 
-//	@PostMapping(path = "/adminLogin", consumes = { MediaType.APPLICATION_JSON_VALUE,
-//			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
-//					MediaType.APPLICATION_XML_VALUE })
-//	public LibraryResponse adminLogin(@RequestBody int id, @RequestBody String password) {
-//		boolean isLogin = service.adminAuthentication(id, password);
-//
-//		LibraryResponse response = new LibraryResponse();
-//		if (isLogin) {
-//			response.setMessage("User Added Successfully");
-//		} else {
-//			response.setError(true);
-//			response.setMessage("User Already Exists");
-//		}
-//		return response;
-//	}
+		LibraryResponse response = new LibraryResponse();
+		if ((requestInfo != null) && (!requestInfo.isEmpty())) {
+			response.setMessage("Book Request Placed Successfully");
+			response.setRequestList(requestInfo);
+		} else {
+			response.setError(true);
+			response.setMessage("Request Can't Be Placed to Admin");
+		}
+		return response;
+	}
+	
+	@GetMapping(path = "/getReturnedBooks", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse getReturnedBooks() {
+		List<RequestInfo> requestInfo = service.getReturnedBooks();
 
-//	@PostMapping(path = "/adminLogin", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-//	public LibraryResponse adminLogin(@RequestBody Map<Integer,String> inputJson) {
-////			@RequestBody Map<String, String> inputJson2) {
-////		int id = inputJson.get("id");
+		LibraryResponse response = new LibraryResponse();
+		if ((requestInfo != null) && (!requestInfo.isEmpty())) {
+			response.setMessage("Books Returned");
+			response.setRequestList(requestInfo);
+		} else {
+			response.setError(true);
+			response.setMessage("Request Can't Be Placed to Admin");
+		}
+		return response;
+	}
 
-	@PostMapping(path = "/adminLogin", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public LibraryResponse adminLogin(@RequestParam int id, String password) {
+	@GetMapping(path = "/userReq/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse userTakenBooks(@PathVariable int userId) {
+		List<RequestInfo> requestInfo = service.userTakenBooks(userId);
+		LibraryResponse response = new LibraryResponse();
+		if ((requestInfo != null) && (!requestInfo.isEmpty())) {
+			response.setMessage("Requests Books lists");
+			response.setRequestList(requestInfo);
+		} else {
+			response.setError(true);
+			response.setMessage("No Request for Books");
+		}
+		return response;
+	}
 
-		boolean isLogin = service.adminAuthentication(id, password);
+	@PostMapping(path = "/login", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse adminLogin(@RequestBody LibraryUsers libraryUsers) {
+
+		boolean isLogin = service.adminAuthentication(libraryUsers.getEmailId(), libraryUsers.getPassword());
 
 		LibraryResponse response = new LibraryResponse();
 		if (isLogin) {
-			response.setMessage("Admin Logged in Successfully");
+			// need to get user details from Db
+			LibraryUsers loginUser = service.getUser(libraryUsers.getEmailId());
+			if (loginUser != null) {
+				response.setError(false);
+				response.setLibraryUsers(loginUser);
+				response.setMessage(" Logged in Successfully");
+			} else {
+				response.setError(true);
+				response.setMessage("Invalid Login Credentials");
+			}
+
 		} else {
 			response.setError(true);
 			response.setMessage("Admin Details was invalid, Unable to login");
 		}
 		return response;
 	}
-	
-	@PostMapping(path = "/userLogin", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public LibraryResponse userLogin(@RequestParam int id, String password) {
 
-		boolean isLogin = service.userAuthentication(id, password);
+	@PostMapping(path = "/userLogin", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse userLogin(@RequestBody LibraryUsers libraryUsers) {
+
+		boolean isLogin = service.userAuthentication(libraryUsers.getEmailId(), libraryUsers.getPassword());
 
 		LibraryResponse response = new LibraryResponse();
 		if (isLogin) {
@@ -129,7 +164,7 @@ public class LibraryRestController {
 		LibraryResponse response = new LibraryResponse();
 		boolean isDeleted = service.deleteBook(isbn);
 		if (isDeleted) {
-			response.setMessage("record deleted for id" + isbn);
+			response.setMessage("Book Id "+ isbn+" deleted Sucessfully" );
 		} else {
 			response.setError(true);
 			response.setMessage("No Records found to delete/unble to delete " + isbn);
@@ -151,14 +186,17 @@ public class LibraryRestController {
 		return response;
 	}
 
-	@GetMapping(path = "/requestBook/{userId}/{bookId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
+//	
+
+	@PostMapping(path = "/requestBook/{userId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
-	public LibraryResponse requestBook(@PathVariable(name = "userId") int userId,
-			@PathVariable(name = "bookId") int bookId) {
-		boolean isRequested = service.bookRequest(userId, bookId);
+	public LibraryResponse requestBook(@RequestBody BookInfo requestInfo, @PathVariable int userId) {
+		boolean isRequested = service.bookRequest(userId, requestInfo.getIsbn());
+
 		LibraryResponse response = new LibraryResponse();
 		if (isRequested) {
+			response.setError(false);
 			response.setMessage("Book Request Placed Successfully");
 		} else {
 			response.setError(true);
@@ -174,7 +212,7 @@ public class LibraryRestController {
 		LibraryResponse response = new LibraryResponse();
 		if (requestList != null && !requestList.isEmpty()) {
 			response.setRequestList(requestList);
-			;
+
 		} else {
 			response.setError(true);
 			response.setMessage("No Books Found In the Library");
@@ -183,26 +221,27 @@ public class LibraryRestController {
 		return response;
 	}
 
-	@GetMapping(path = "/issueBook/{reqId}", produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE })
-	public LibraryResponse issueBook(@PathVariable(name = "reqId") int requestId) {
-		boolean isIssued = service.isBookIssued(requestId);
+	@PostMapping(path = "/issueBook", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse issueBook(@RequestBody RequestInfo requestInfo) {
+		boolean isIssued = service.isBookIssued(requestInfo.getRequestId());
 
 		LibraryResponse response = new LibraryResponse();
 		if (isIssued) {
-			response.setMessage("Book Request Placed Successfully");
+			response.setMessage("BookIssued Successfully");
 		} else {
 			response.setError(true);
-			response.setMessage("Request Can't Be Placed to Admin");
+			response.setMessage("Book Can't be Issued");
 		}
 		return response;
 	}
 
-	@GetMapping(path = "/returnBook/{userId}/{bookId}", produces = { MediaType.APPLICATION_JSON_VALUE,
-			MediaType.APPLICATION_XML_VALUE })
-	public LibraryResponse returnBook(@PathVariable(name = "userId") int userId,
-			@PathVariable(name = "bookId") int bookId) {
-		boolean isReturned = service.bookReturn(userId, bookId);
+	@PostMapping(path = "/returnBook", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse returnBook(@RequestBody RequestInfo requestInfo) {
+		boolean isReturned = service.bookReturn(requestInfo.getUserId(), requestInfo.getBookId());
 		LibraryResponse response = new LibraryResponse();
 		if (isReturned) {
 			response.setMessage("Book returned To Admin Successfully");
@@ -213,11 +252,11 @@ public class LibraryRestController {
 		return response;
 	}
 
-	@GetMapping(path = "/receiveBook/{reqId}", consumes = { MediaType.APPLICATION_JSON_VALUE,
+	@PostMapping(path = "/receiveBook", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
-	public LibraryResponse receiveBook(@PathVariable(name = "reqId") int requestId) {
-		boolean isIssued = service.isBookReceived(requestId);
+	public LibraryResponse receiveBook(@RequestBody RequestInfo requestInfo) {
+		boolean isIssued = service.isBookReceived(requestInfo.getRequestId());
 
 		LibraryResponse response = new LibraryResponse();
 		if (isIssued) {
@@ -241,6 +280,23 @@ public class LibraryRestController {
 		} else {
 			response.setError(true);
 			response.setMessage("Unable to Search, Invalid Searching");
+		}
+		return response;
+	}
+
+	@PostMapping(path = "/updateBook", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse updateBook(@RequestBody BookInfo bookInfo) {
+		BookInfo book = service.updateBook(bookInfo);
+
+		LibraryResponse response = new LibraryResponse();
+		if ((book != null)) {
+			response.setError(false);
+			response.setBookInfo(book);
+		} else {
+			response.setError(true);
+			response.setMessage("Unable to Update");
 		}
 		return response;
 	}

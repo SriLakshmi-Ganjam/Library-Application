@@ -1,0 +1,41 @@
+
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<!-- <div class="alert alert-danger" *ngIf='error'>{{error}}</div> -->
+<div class="container mt-4">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search By RequestId"  [(ngModel)] = "searchText" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <label name='Search By'>Search By</label>
+
+    <select class="selectpicker float-right"  [(ngModel)] = "fieldName"  >
+        <option value="requestId" selected >Id</option>
+        <option value="userId" >User Id</option>
+        <option value="bookId">Book Id Id</option>
+        <!-- <option value="role">Role</option> -->
+    </select>
+    <br><br>
+    <table class="table table-hover table-bordered">
+        <thead >
+            <tr style="color:rgb(238, 230, 230)">
+                <th>Request Id</th>
+                <th>User Id</th>
+                <th>Book Id</th>
+                <th>Issue</th>
+                <!-- <th>Receive</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let request of requests|searchBook:searchText:fieldName'>   
+                
+                <td>{{request.requestId}}</td>
+                <td>{{request.userId}}</td>
+                <td>{{request.bookId}}</td>
+                <td ><button class="btn btn-black" (click) = 'issue(request)'>Issue</button></td>
+                <!-- <td ><button class= "btn btn-danger " (click) = 'receive(request)'>Receive</button></td> -->
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+

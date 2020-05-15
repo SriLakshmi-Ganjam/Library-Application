@@ -250,7 +250,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 		for (RequestInfo requestInfo : DataBase.REQUESTDB) {
 			if (requestInfo.getBookId() == bookId && requestInfo.getUserId() == userId
-					&& requestInfo.isIssued() == true) {
+					&& requestInfo.isReturned() == false) {
 				requestInfo.setReturned(true);
 				requestInfo.setReturnedDate(returnedDate);
 				return true;
@@ -268,7 +268,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 		for (RequestInfo requestInfo1 : DataBase.REQUESTDB) {
 			if (requestInfo1.getBookId() == bookId && requestInfo1.getUserId() == userId
-					&& requestInfo1.isReturned() == true) {
+					&& requestInfo1.isReturned() == false) {
 				isValidReceive = true;
 				expectedReturnDate = requestInfo1.getExpectedReturnedDate();
 				returnedDate = requestInfo1.getReturnedDate();

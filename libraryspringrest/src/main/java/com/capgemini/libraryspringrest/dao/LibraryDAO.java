@@ -10,17 +10,21 @@ public interface LibraryDAO {
 
 	boolean register(LibraryUsers user);
 
-	boolean adminAuthentication(int id, String password);
+	boolean adminAuthentication(String emailId, String password);
 
-	boolean userAuthentication(int id, String password);
+	boolean userAuthentication(String emailId, String password);
 
 	boolean addBook(BookInfo book);
 
 	boolean deleteBook(int isbn);
 
+	BookInfo updateBook(BookInfo book);
+	
 	List<BookInfo> showBooks();
 
 	List<LibraryUsers> showUsers();
+	
+	LibraryUsers getUser(String emailId);
 
 	List<BookInfo> searchBook(BookInfo bookInfo);
 
@@ -30,13 +34,20 @@ public interface LibraryDAO {
 
 	boolean isBookReceived(int requestId);
 
-	// USER INTERFACE
 
 	boolean bookRequest(int userId, int bookId);
 
 	boolean bookReturn(int userId, int bookId);
 	
 	boolean changePassword(int userId, String oldPassword, String newPassword);
+	
+	List<RequestInfo> getRequestedBooks();
+	
+	List<RequestInfo> userTakenBooks(int userId);
+	
+	List<RequestInfo> getReturnedBooks();
+	
+	
 
 }
 

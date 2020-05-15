@@ -1,0 +1,12 @@
+h2,label{
+    text-emphasis-color: black;
+}
+button{
+    background-color: black;
+    color: blanchedalmond;
+}
+
+.button:hover {
+    background-color:black;
+    color: white;
+  }

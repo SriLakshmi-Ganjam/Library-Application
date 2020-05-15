@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.capgemini.libraryspringrest.dao.LibraryDAO;
+import com.capgemini.libraryspringrest.dao.LibraryDAOImplementation;
 import com.capgemini.libraryspringrest.dto.BookInfo;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
 
 public class LibraryDAOTest {
 
-	@Autowired
-	private LibraryDAO dao;
+//	@Autowired
+	private LibraryDAO dao = new LibraryDAOImplementation() ;
 
 	@Test
 	public void testAddBook() {
@@ -110,7 +110,7 @@ public class LibraryDAOTest {
 
 	@Test
 	public void testUserLogin() {
-		boolean status = dao.userAuthentication(333, "padma");
+		boolean status = dao.userAuthentication("padma@gmail.com", "padma");
 		Assertions.assertTrue(status);
 	}
 

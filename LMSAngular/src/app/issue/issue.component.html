@@ -1,0 +1,27 @@
+
+
+<div class="container mt-4">
+    <table class="table table-hover table-bordered">
+        <thead style="color: white; background: black;">
+            <tr>
+                <th>Request Id</th>
+                <th>User Id</th>
+                <th>Book Id</th>
+                <th>Issue Date</th>
+                <th>Expected Return Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let request of requests'>
+                <td>{{request.requestId}}</td>
+                <td>{{request.userId}}</td>
+                <td>{{request.bookId}}</td>
+                <td>{{request.issuedDate}}</td>
+                <td>{{request.expectedReturnDate}}</td>               
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+

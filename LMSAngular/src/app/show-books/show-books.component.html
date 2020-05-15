@@ -1,0 +1,49 @@
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='message2'>{{message2}}</div>
+<div class="container mt-4">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search By Book Title"  [(ngModel)] = "searchText" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <label name='Search By'>Search By</label>
+    <select class="selectpicker widith ='50%' float-right" id="inputGroupSelect01" [(ngModel)] = "fieldName">
+        <option value="price" >price</option>
+        <option value="bookTitle" selected>bookTitle</option>
+        <option value="authourName">authourName</option>
+        <option value="isbn">isbn</option>
+      </select>
+      <br><br>
+
+    <table class="table table-hover table-bordered">
+        <thead >
+            <tr style="color:rgb(238, 230, 230)">
+                <th>BOOK ID</th>
+                <th>BOOK NAME</th>
+                <th>AUTHOR</th>
+                <th>PRICE</th>
+                <th>BOOK AVAILABILITY</th>
+                <th *ngIf = "isAdminLogin">DELETE </th>
+                <th *ngIf = "isAdminLogin">UPDATE </th>
+                <th *ngIf = "isUserLogin">Request </th>
+                <!-- <th *ngIf = "isUserLogin">Return </th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let book of books|searchBook:searchText:fieldName' >
+                <td>{{book.isbn}}</td>
+                <td>{{book.bookTitle}}</td>
+                <td>{{book.authourName}}</td>
+                <td>{{book.price}}</td>
+                <td>{{book.isAvailable}}</td>
+                <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'deleteBook(book)'>Delete</button></td>
+                <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'updateBook(book)'>Update</button></td>
+                <td *ngIf = "isUserLogin"><button class= "btn btn-black " (click) = 'postReq(book)'>Request</button></td>
+                <!-- <td *ngIf = "isUserLogin"><button class= "btn btn-danger " (click) = 'postRet(book)'>Return</button></td> -->
+            </tr>
+        </tbody>
+
+    </table>
+
+</div>
+
+
+

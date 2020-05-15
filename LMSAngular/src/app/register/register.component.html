@@ -1,0 +1,68 @@
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="alert alert-danger" *ngIf='message2'>{{message2}}</div>
+<div class="col-md-4 offset-4 mt-4">
+  <div class="card text-Black bg-light mb-3">
+    <div class="card-body">
+      <h4 class="text-center">ADD USER</h4>
+      <form #addUserForm='ngForm' (ngSubmit)='postUser(addUserForm)'>
+        <!--------------User Name---------------->
+        <div class="form-group">
+          <label for="name">User Name</label>
+          <input type="text" name="name" id="name" #name='ngModel' placeholder="Enter Name" ngModel class="form-control" required
+            pattern="^[a-zA-Z ]{2,30}$">
+          <div *ngIf='name.touched && name.invalid'>
+            <div class="text-danger" *ngIf='name.errors.required'>
+             *This field is mandatory
+            </div>
+            <div class="text-danger" *ngIf='name.errors.pattern'>Name Should contain Only Alphabets(Minimum 2 characters)
+            </div>
+          </div>
+        </div>
+        <!-------------Email Id----------------->
+        <div class="form-group">
+          <label for="emailId">Email Id</label>
+          <input type="email" name="emailId" id="emailId" #emailId='ngModel' placeholder="Enter Email Id eg: abc@xyz.com" ngModel class="form-control" required email
+            pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,}">
+          <div *ngIf='emailId.touched && emailId.invalid'>
+            <div class="text-danger" *ngIf='emailId.errors.required'>
+              *This field is mandatory
+            </div>
+            <div class="text-danger" *ngIf='emailId.errors.pattern'>
+              Please enter a Valid Email Address
+            </div>
+          </div>
+        </div>
+        <!----------------------PassWord---------------------->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" #password='ngModel' ngModel  placeholder="Enter Password"  class="form-control" required
+            minlength="6" pattern="^[A-Za-z\d$@$!%*#?&]{6,}">
+          <div *ngIf='password.touched && password.invalid'>
+            <div class="text-danger" *ngIf='password.errors.required'>*This Field is Mandatory</div>
+            <div *ngIf=password.errors.pattern>
+              <div class="text-danger">Password should be atleast 6 characters long</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-----------------------Role------------------------>
+        <div class="form-group">
+          <label for="role">Role</label>
+          <select name="role" id="role" #role='ngModel' ngModel class="form-control" required>
+            <option value="admin">Admin</option>
+            <option value="user" selected>User</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-default float-right color:white" [disabled]= addUserForm.invalid>Add User</button>
+      </form>
+    </div>
+
+
+
+
+
+
+
+
+

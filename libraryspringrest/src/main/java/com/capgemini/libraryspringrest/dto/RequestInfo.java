@@ -7,6 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @SuppressWarnings("serial")
 @Entity
@@ -22,10 +26,16 @@ public class RequestInfo implements Serializable {
 	@Column
 	private int bookId;
 	@Column
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	private Date issuedDate;
 	@Column
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	private Date returnedDate;
 	@Column
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
 	private Date expectedReturnDate;
 
 	public int getRequestId() {
@@ -76,6 +86,7 @@ public class RequestInfo implements Serializable {
 		this.returnedDate = returnedDate;
 	}
 
+	
 //	@ManyToMany(cascade = CascadeType.ALL)
 //	@JoinTable(name = "bookrequests", joinColumns = { @JoinColumn(name = "requestId") }, inverseJoinColumns = {
 //			@JoinColumn(name = "userId") })

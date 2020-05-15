@@ -16,6 +16,7 @@ import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryHistory;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
 import com.capgemini.libraryspringrest.exception.LibraryException;
@@ -65,32 +66,32 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		}
 	}
 
+//To Do for all users log in
 	@Override
-	public boolean adminAuthentication(int id, String password) {
-		LibraryUsers users = new LibraryUsers();
+	public boolean adminAuthentication(String emailId, String password) {
+
 		EntityManager manager = null;
-		EntityTransaction transaction = null;
+		String jpql;
 		try {
+
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
-			transaction = manager.getTransaction();
 
-			transaction.begin();
-			users = manager.find(LibraryUsers.class, id);
+			jpql = "select users from LibraryUsers users ";
+			TypedQuery<LibraryUsers> query2 = manager.createQuery(jpql, LibraryUsers.class);
+			List<LibraryUsers> list = query2.getResultList();
 
-			if (users != null) {
-				if (users.getPassword().equals(password) && users.getRole().equalsIgnoreCase("admin")) {
-					transaction.commit();
+			for (LibraryUsers users : list) {
+				if (users.getEmailId().equalsIgnoreCase(emailId) && (users.getPassword().equals(password))) {
+
 					return true;
-				} else {
-					throw new LibraryException("Invalid  password");
 				}
-			} else {
-				throw new LibraryException("Invalid Admin Id");
 			}
 
+			throw new LibraryException("Invalid Login Credentials");
+//	
+
 		} catch (Exception e) {
-			transaction.rollback();
 			throw new LibraryException(e.getMessage());
 		} finally {
 			manager.close();
@@ -99,29 +100,46 @@ public class LibraryDAOImplementation implements LibraryDAO {
 	}
 
 	@Override
-	public boolean userAuthentication(int id, String password) {
-		LibraryUsers users = new LibraryUsers();
+	public boolean userAuthentication(String emailId, String password) {
 		EntityManager manager = null;
-		EntityTransaction transaction = null;
+		String jpql = null;
+
 		try {
+
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
-			transaction = manager.getTransaction();
 
-			transaction.begin();
-			users = manager.find(LibraryUsers.class, id);
-			if (users != null) {
-				if (users.getPassword().equals(password) && users.getRole().equalsIgnoreCase("user")) {
-					transaction.commit();
+			jpql = "select users from LibraryUsers users ";
+			TypedQuery<LibraryUsers> query2 = manager.createQuery(jpql, LibraryUsers.class);
+			List<LibraryUsers> list = query2.getResultList();
+
+			for (LibraryUsers users : list) {
+				if (users.getEmailId().equalsIgnoreCase(emailId)
+						&& (users.getPassword().equals(password) && (users.getRole().equalsIgnoreCase("user")))) {
+
 					return true;
-				} else {
-					throw new LibraryException("Invalid password");
 				}
-			} else {
-				throw new LibraryException("Invalid User Id");
 			}
+
+			throw new LibraryException("Invalid User Credentials");
+
+//			factory = Persistence.createEntityManagerFactory("TestPersistence");
+//			manager = factory.createEntityManager();
+//			transaction = manager.getTransaction();
+//
+//			transaction.begin();
+//			users = manager.find(LibraryUsers.class, emailId);
+//			if (users != null) {
+//				if (users.getPassword().equals(password) && users.getRole().equalsIgnoreCase("user")) {
+//					transaction.commit();
+//					return true;
+//				} else {
+//					throw new LibraryException("Invalid password");
+//				}
+//			} else {
+//				throw new LibraryException("Invalid User Id");
+//			}
 		} catch (Exception e) {
-			transaction.rollback();
 			throw new LibraryException(e.getMessage());
 		}
 	}
@@ -164,7 +182,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			return true;
 		} catch (Exception e) {
 			transaction.rollback();
-			throw new LibraryException("Book Can't Be Removed,No Book Found With Given Id");
+			throw new LibraryException("Book Can't Be Removed, It was Issued To Someone Please Wait Untill It's Return");
 		} finally {
 			manager.close();
 		}
@@ -230,6 +248,10 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		int id = bookInfo.getIsbn();
 		String bookName = bookInfo.getBookTitle();
 		String authourName = bookInfo.getAuthourName();
+//		try {
+//		int id = Integer.parseInt(reqstr); 
+//		}
+//		
 
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -287,7 +309,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
-			String jpql = "select reqs from RequestInfo reqs";
+			String jpql = "select reqs from RequestInfo reqs where reqs.issuedDate=null";
 			TypedQuery<RequestInfo> query = manager.createQuery(jpql, RequestInfo.class);
 			List<RequestInfo> list = query.getResultList();
 			if (list.isEmpty()) {
@@ -306,6 +328,9 @@ public class LibraryDAOImplementation implements LibraryDAO {
 
 	@Override
 	public boolean bookRequest(int userId, int bookId) {
+		System.out.println(userId);
+		System.out.println(bookId);
+
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -384,12 +409,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 		Date date = new Date();
 		Date expectedReturnDate = null;
 		Calendar calendar = Calendar.getInstance();
-//		calendar.add(Calendar.DATE, 15);
-//		calendar.clear(Calendar.HOUR_OF_DAY);
-//		calendar.clear(Calendar.AM_PM);
-//		calendar.clear(Calendar.MINUTE);
-//		calendar.clear(Calendar.SECOND);
-//		calendar.clear(Calendar.MILLISECOND);
+		calendar.add(Calendar.DATE, 15);
 		expectedReturnDate = calendar.getTime();
 
 		try {
@@ -414,7 +434,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 					user = manager.find(LibraryUsers.class, reqUserId);
 					noOfBooks = user.getNoOfBooksBorrowed();
 					++noOfBooks;
-					System.out.println("No Of Books Borrowed" + noOfBooks);
+//					System.out.println("No Of Books Borrowed" + noOfBooks);
 
 					user.setNoOfBooksBorrowed(noOfBooks);
 					transaction.commit();
@@ -464,7 +484,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			List<RequestInfo> list = query2.getResultList();
 
 			for (RequestInfo requestInfo : list) {
-				if ((requestInfo.getBookId() == bookId) && (requestInfo.getUserId() == userId)) {
+				if ((requestInfo.getBookId() == bookId) && (requestInfo.getUserId() == userId) && (requestInfo.getIssuedDate()!=null)) {
 					if (requestInfo.getReturnedDate() != null) {
 						throw new LibraryException("You Have Already Returned This Book");
 
@@ -479,10 +499,10 @@ public class LibraryDAOImplementation implements LibraryDAO {
 				transaction.begin();
 				info = manager.find(RequestInfo.class, reqId);
 				info.setReturnedDate(returnedDate);
-				transaction.commit();
+				transaction.commit();						
 
 			} else {
-				throw new LibraryException("Invalid Book Return");
+				throw new LibraryException("Book Not Yet Issued");
 			}
 
 		} catch (LibraryException e) {
@@ -550,7 +570,8 @@ public class LibraryDAOImplementation implements LibraryDAO {
 					transaction.commit();
 
 					transaction.begin();
-					info = manager.find(RequestInfo.class, requestId);
+					info = manager.find(RequestInfo.class, requestId);		
+					
 					manager.remove(info);
 					transaction.commit();
 
@@ -599,6 +620,135 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			manager.close();
 		}
 		return true;
+	}
+
+	@Override
+	public BookInfo updateBook(BookInfo book) {
+		EntityManager manager = null;
+		EntityTransaction transaction = null;
+		BookInfo bookInfo = new BookInfo();
+
+		try {
+			manager = factory.createEntityManager();
+			transaction = manager.getTransaction();
+			transaction.begin();
+			bookInfo = manager.find(BookInfo.class, book.getIsbn());
+
+			if (book.getBookTitle() != null) {
+				bookInfo.setBookTitle(book.getBookTitle());
+			}
+			if (book.getAuthourName() != null) {
+				bookInfo.setAuthourName(book.getAuthourName());
+			}
+			if (book.getPrice() != 0) {
+				bookInfo.setPrice(book.getPrice());
+			}
+			if (!(bookInfo.isAvailable() == book.isAvailable())) {
+
+				bookInfo.setAvailable(book.isAvailable());
+			}
+
+			transaction.commit();
+			return bookInfo;
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return null;
+		}
+
+	}
+
+	@Override
+	public LibraryUsers getUser(String emailId) {
+		EntityManager manager = null;
+		String jpql = null;
+		try {
+			factory = Persistence.createEntityManagerFactory("TestPersistence");
+			manager = factory.createEntityManager();
+
+			jpql = "select users from LibraryUsers users ";
+			TypedQuery<LibraryUsers> query2 = manager.createQuery(jpql, LibraryUsers.class);
+			List<LibraryUsers> list = query2.getResultList();
+
+			for (LibraryUsers user : list) {
+				if (user.getEmailId().equalsIgnoreCase(emailId)) {
+					return user;
+
+				}
+			}
+
+		} catch (LibraryException e) {
+			// TODO: handle exception
+		}
+		return null;
+
+	}
+
+	@Override
+	public List<RequestInfo> getRequestedBooks() {
+
+		EntityManager manager = null;
+		String jpql = null;
+		try {
+			factory = Persistence.createEntityManagerFactory("TestPersistence");
+			manager = factory.createEntityManager();
+
+			jpql = "select info from RequestInfo info where info.issuedDate != null";
+			TypedQuery<RequestInfo> query2 = manager.createQuery(jpql, RequestInfo.class);
+			List<RequestInfo> list = query2.getResultList();
+			return list;
+
+		} catch (LibraryException e) {
+			throw new LibraryException("Can't Find The Requested Books");
+		}
+	}
+
+	@Override
+	public List<RequestInfo> userTakenBooks(int userId) {
+
+		EntityManager manager = null;
+		String jpql = null;
+		 
+		try {
+			factory = Persistence.createEntityManagerFactory("TestPersistence");
+			manager = factory.createEntityManager();
+			
+			jpql = "select info from RequestInfo info where info.userId =: userId";
+			TypedQuery<RequestInfo> query = manager.createQuery(jpql, RequestInfo.class);
+			query.setParameter("userId", userId);
+			List<RequestInfo> list = query.getResultList();
+			
+			if ((list != null) && (!list.isEmpty())) {
+				return list;
+			} else {
+				throw new LibraryException("No User Found");
+			}
+
+		} catch (LibraryException e) {
+			throw new LibraryException(e.getMessage());
+		}
+	}
+
+	@Override
+	public List<RequestInfo> getReturnedBooks() {
+		EntityManager manager = null;
+		String jpql = null;
+		try {
+			factory = Persistence.createEntityManagerFactory("TestPersistence");
+			manager = factory.createEntityManager();
+
+			jpql = "select info from RequestInfo info where info.returnedDate != null";
+			TypedQuery<RequestInfo> query2 = manager.createQuery(jpql, RequestInfo.class);
+			List<RequestInfo> list = query2.getResultList();
+			if(!list.isEmpty() && (list!=null)) {
+				return list;
+			}else {
+				throw new LibraryException("No Books Returned Yet");
+			}
+			
+
+		} catch (LibraryException e) {
+			throw new LibraryException(e.getMessage());
+		}
 	}
 
 }

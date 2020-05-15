@@ -1,0 +1,124 @@
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="col-md-4 offset-4 mt-4">
+  <div class="card text-black bg-light mb-3">
+    <div class="card-body">
+      <h2 class="text-center">Add Book</h2>
+      <form #addBookForm='ngForm' (ngSubmit)='postaddBook(addBookForm)'>
+        <!---------------- Book Name----------------- -->
+        <div class="form-group">
+          <label for="bookTitle">Book Name</label>
+          <input type="text" name="bookTitle" id="bookTitle" #bookTitle='ngModel' ngModel class="form-control" required
+            pattern="^[a-zA-Z ]{1,}$">
+          <div *ngIf='bookTitle.touched && bookTitle.invalid'>
+            <div class="text-danger" *ngIf='bookTitle.errors.required'>
+              *This field is mandatory
+            </div>
+            <div class="text-danger" *ngIf='bookTitle.errors.pattern'>Name Should contain Only Alphabets
+            </div>
+          </div>
+        </div>
+        <!-----------------Author Name ------------------------->
+        <div class="form-group">
+          <label for="authourName">Author Name</label>
+          <input type="text" name="authourName" id="authourName" #authourName='ngModel' ngModel class="form-control"
+            required pattern="^[a-zA-Z ]{1,}$">
+          <div *ngIf='authourName.touched && authourName.invalid'>
+            <div class="text-danger" *ngIf='authourName.errors.required'>
+              *This field is mandatory
+            </div>
+            <div class="text-danger" *ngIf='authourName.errors.pattern'>Name Should contain Only Alphabets
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="text" name="price" id="price" #price='ngModel' ngModel class="form-control" required
+            pattern="^[1-9]{1}[0-9]{1,}$">
+          <div *ngIf='price.touched && price.invalid'>
+            <div class="text-danger" *ngIf='price.errors.required'>
+              *This field is mandatory
+            </div>
+            <div class="text-danger" *ngIf='price.errors.pattern'>Price Should contain Only Digits(>9)
+            </div>
+          </div>
+        </div>
+
+
+        <!-----------------------------------Availability------------------------------------- -->
+        <div class="form-group">
+          <label for="isAvailable">Book Availability</label>
+          <select name="isAvailable" id="isAvailable" #isAvailable='ngModel' ngModel class="form-control" required>
+            <option value="True">True</option>
+            <option value="False">False</option>
+          </select>
+        </div><br>
+
+        <button class="btn btn-default float-right" [disabled]=addBookForm.invalid>Add Book</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="col-md-4 offset-4 mt-4">
+    <h4 class="text-center">Add User</h4>
+
+<form #addBookForm='ngForm' (ngSubmit)='postaddBook(addBookForm)'>
+    <div class="form-group">
+      <label for="bookTitle">Book Name</label>
+      <input type="bookTitle" name="bookTitle"  #bookTitle='ngModel' ngModel  class="form-control">
+     
+    </div>
+    
+    <div class="form-group">
+      <label for="authourName">Book Authour</label>
+      <input type="text" name="authourName" id="authourName" #authourName='ngModel' ngModel class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="text" name="price" id="price" #price='ngModel' ngModel class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="isAvailable">Availability</label>
+        <input type="boolean" name="isAvailable" id="isAvailable" #role='ngModel' ngModel class="form-control">
+      </div>
+      
+    <button type="submit" class="btn btn-danger float-right">Add User</button>
+    </form>
+</div> -->
