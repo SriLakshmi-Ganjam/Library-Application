@@ -2,6 +2,15 @@ h2,label{
     color: black;
 }
 button{
-    background-color: black;
-   color:white;
+   
+    background-color: orange;
+   color:black;
+}
+tr,td{
+    border-color: white;
+    color:white;
+}
+
+th{
+    background-color: orange;
 }

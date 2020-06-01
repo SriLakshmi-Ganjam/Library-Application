@@ -23,6 +23,8 @@ import { SearchBookPipe } from './search-book.pipe';
 import { SearchUserPipe } from './search-user.pipe';
 import { SearchRequestPipe } from './search-request.pipe';
 import { ReturnedBooksComponent } from './returned-books/returned-books.component';
+import { LibraryHistoryComponent } from './library-history/library-history.component';
+import { UserHistoryComponent } from './user-history/user-history.component';
 
 
 @NgModule({
@@ -44,7 +46,9 @@ import { ReturnedBooksComponent } from './returned-books/returned-books.componen
     SearchBookPipe,
     SearchUserPipe,
     SearchRequestPipe,
-    ReturnedBooksComponent
+    ReturnedBooksComponent,
+    LibraryHistoryComponent,
+    UserHistoryComponent
    
   ],
   imports: [

@@ -3,6 +3,7 @@ package com.capgemini.libraryspringrest.dao;
 import java.util.List;
 
 import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryHistory;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
 
@@ -34,7 +35,6 @@ public interface LibraryDAO {
 
 	boolean isBookReceived(int requestId);
 
-
 	boolean bookRequest(int userId, int bookId);
 
 	boolean bookReturn(int userId, int bookId);
@@ -47,6 +47,11 @@ public interface LibraryDAO {
 	
 	List<RequestInfo> getReturnedBooks();
 	
+	boolean addToHistory(LibraryHistory history);
+	
+	List<LibraryHistory> getLibHistory();
+	
+	List<LibraryHistory> getUserHistory(int userId);
 	
 
 }

@@ -8,13 +8,31 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class LibraryResponse {
 	private boolean error;
 	private String message;
+	
 	private LibraryUsers libraryUsers;
 	private List<LibraryUsers> userList;
+	
 	private BookInfo bookInfo;
 	private List<BookInfo> bookList;
+	
 	private RequestInfo requestInfo;
 	private List<RequestInfo> requestList;
 	
+	private LibraryHistory libraryHistory;
+	private List<LibraryHistory> historyList;
+	
+	public LibraryHistory getLibraryHistory() {
+		return libraryHistory;
+	}
+	public void setLibraryHistory(LibraryHistory libraryHistory) {
+		this.libraryHistory = libraryHistory;
+	}
+	public List<LibraryHistory> getHistoryList() {
+		return historyList;
+	}
+	public void setHistoryList(List<LibraryHistory> historyList) {
+		this.historyList = historyList;
+	}
 	public boolean isError() {
 		return error;
 	}

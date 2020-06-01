@@ -1,12 +1,30 @@
 thead{
-    background-color: black ;
+    background-color: orange;
+    color:black;
+}
+tr,td{
+    border-color:white;
+    color: white;
+    
 }
 button{
-    background-color: black;
+
     color: blanchedalmond;
+    
 }
 
 .button:hover {
     background-color:black;
     color: white;
+  }
+
+  div{
+      background-image: "https://i.pinimg.com/236x/41/a0/60/41a0603cb61e67cffd74bd226fc91ad1.jpg";
+     
+  }
+
+  i{
+      text-align: center;
+     
+      font-size: 30px;
   }

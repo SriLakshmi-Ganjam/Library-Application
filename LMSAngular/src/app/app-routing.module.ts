@@ -16,6 +16,8 @@ import { AuthGuard } from './auth.guard';
 import { AdminAuthGuardGuard } from './admin-auth-guard.guard';
 import { UserAuthGuardGuard } from './user-auth-guard.guard';
 import { ReturnedBooksComponent } from './returned-books/returned-books.component';
+import { LibraryHistoryComponent } from './library-history/library-history.component';
+import { UserHistoryComponent } from './user-history/user-history.component';
 
 
 
@@ -31,8 +33,9 @@ const routes: Routes = [{ path: '', component: HomeComponent },
 { path: 'request', component: RequestComponent,canActivate:[UserAuthGuardGuard] },
 { path: 'showRequests', component: ShowRequestsComponent,canActivate:[AdminAuthGuardGuard] },
 { path: 'update', component: UpdateComponent, canActivate: [AdminAuthGuardGuard] },
-{ path: 'returnedBooks', component:ReturnedBooksComponent,canActivate:[AdminAuthGuardGuard]}
-
+{ path: 'returnedBooks', component:ReturnedBooksComponent,canActivate:[AdminAuthGuardGuard]},
+{ path: 'libraryHistory', component:LibraryHistoryComponent, canActivate:[AdminAuthGuardGuard]},
+{ path: 'userHistory', component:UserHistoryComponent, canActivate:[UserAuthGuardGuard]}
 
 ];
 

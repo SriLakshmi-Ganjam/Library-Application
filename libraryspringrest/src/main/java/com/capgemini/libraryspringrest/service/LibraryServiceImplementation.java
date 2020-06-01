@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.libraryspringrest.dao.LibraryDAO;
 import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryHistory;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
 
@@ -110,6 +111,16 @@ public class LibraryServiceImplementation implements LibraryService {
 	@Override
 	public List<RequestInfo> getReturnedBooks() {
 		return dao.getReturnedBooks();
+	}
+
+	@Override
+	public List<LibraryHistory> getLibHistory() {
+		return dao.getLibHistory();
+	}
+
+	@Override
+	public List<LibraryHistory> getUserHistory(int userId) {
+		return dao.getUserHistory(userId);
 	}
 
 }

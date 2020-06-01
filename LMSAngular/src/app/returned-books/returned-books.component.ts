@@ -30,8 +30,8 @@ getReturnedBooks(){
 }
 
 
-receive(book){
-  this.libraryService.postReceive(book).subscribe(response =>{
+receive(requests){
+  this.libraryService.postReceive(requests).subscribe(response =>{
     console.log(response);
     this.requests = response.requestInfo;
     if(response.error){

@@ -8,7 +8,7 @@
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item " *ngIf = "libraryService.isNotLoggedIn()">
-        <a class="nav-link" routerLink="/">Home </a>
+        <a class="nav-link" routerLink="/"><i class="fas fa-home"></i> Home </a>
       </li>
       <li class="nav-item" *ngIf = "libraryService.isNotLoggedIn()">
         <a class="nav-link" routerLink="/about">About</a>
@@ -18,44 +18,48 @@
       </li>
 
       <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/register">Add User</a>
+        <a class="nav-link" routerLink="/register"><i class="fas fa-user-plus"></i> Add User</a>
       </li>
       <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/addBook">Add Book</a>
+        <a class="nav-link" routerLink="/addBook"><i class="fas fa-book-medical"></i> Add Book</a>
       </li>
       <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/showBooks">Show All Books</a>
+        <a class="nav-link" routerLink="/showBooks"><i class="fas fa-book"></i> Books</a>
       </li>
       <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/showUsers">Show All Users</a>
-      </li>
-
-      <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/showRequests">Show All Requests</a>
+        <a class="nav-link" routerLink="/showUsers"><i class="fas fa-users"></i> Users</a>
       </li>
 
       <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/issue">Issued Books</a>
+        <a class="nav-link" routerLink="/showRequests"><i class="fas fa-clipboard-list"></i> Requests</a>
       </li>
 
       <li class="nav-item" *ngIf = "libraryService.isAdmin()">
-        <a class="nav-link" routerLink="/returnedBooks">Returned Books</a>
+        <a class="nav-link" routerLink="/issue"><i class="fas fa-clipboard-check"></i> Issued Books</a>
+      </li>
+
+      <li class="nav-item" *ngIf = "libraryService.isAdmin()">
+        <a class="nav-link" routerLink="/returnedBooks"><i class="fab fa-r-project"></i> Returned Books</a>
+      </li>
+
+      <li class="nav-item" *ngIf = "libraryService.isAdmin()">
+        <a class="nav-link" routerLink="/libraryHistory"><i class="fas fa-history"></i> History </a>
       </li>
 
 
       <!-------------------- Users list--------------------->
 
       <li class="nav-item" *ngIf = "libraryService.isUser()">
-        <a class="nav-link" routerLink="/showBooks">View Books</a>
+        <a class="nav-link" routerLink="/showBooks"><i class="fas fa-book"></i> Books</a>
       </li>
 
       <li class="nav-item" *ngIf = "libraryService.isUser()">
-        <a class="nav-link" routerLink="/request">Requested Books</a>
+        <a class="nav-link" routerLink="/request"><i class="fas fa-clipboard-list"></i> Requested Books</a>
       </li>
 
-      <!-- <li class="nav-item" *ngIf = "libraryService.isUser()">
-        <a class="nav-link" routerLink="/return">Book Return</a>
-      </li> -->
+      <li class="nav-item" *ngIf = "libraryService.isUser()">
+        <a class="nav-link" routerLink="/userHistory"><i class="fas fa-history"></i> User History</a>
+      </li>
 
     </ul>
   
@@ -63,12 +67,14 @@
 
     <ul class="navbar-nav ">
       <form class="form-inline">
-        <li class="nav-item " *ngIf="libraryService.isNotLoggedIn()">
-          <a class="nav-link" [routerLink]="['/login']" style="color: aliceblue;">Login</a>
+        <li class="nav-item " *ngIf="libraryService.isNotLoggedIn()" >
+          
+          <a class="nav-link" [routerLink]="['/login']" style="color: aliceblue;"><i class="fas fa-sign-in-alt"></i> Login</a>
         </li>
         <li class="nav-item " *ngIf="libraryService.isLoggedIn()">
-          <a class="nav-link" (click)="this.logoutClick()" routerLink="/login" style="color: aliceblue;">Logout</a>
-          <!-- <a class="nav-link" (click)="this.dashboardClick()" routerLink="/admin" style="color: aliceblue;">DashBoard</a> -->
+          
+          <a class="nav-link" (click)="this.logoutClick()" routerLink="/login" style="color: aliceblue;">Logout <i class="fas fa-sign-out-alt"></i> </a>
+          
         </li>
       </form>
 
@@ -79,23 +85,3 @@
 </nav>
 
 <router-outlet></router-outlet>
-
-
-
-<!-- <ul class="navbar-nav ">
-  <form class="form-inline">
-    <li class="nav-item " *ngIf="libraryService.isAdmin()">
-      <a class="nav-link" (click)="this.dashboardClick()" routerLink="/admin"
-        style="color: aliceblue;">DashBoard</a>
-    </li>
-  </form>
-</ul>
-
-<ul class="navbar-nav ">
-  <form class="form-inline">
-    <li class="nav-item " *ngIf="libraryService.isUser()">
-      <a class="nav-link" (click)="this.dashboardClick()" routerLink="/user"
-        style="color: aliceblue;">DashBoard</a>
-    </li>
-  </form>
-</ul> -->

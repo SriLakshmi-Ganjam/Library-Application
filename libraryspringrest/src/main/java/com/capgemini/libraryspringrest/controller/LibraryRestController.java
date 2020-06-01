@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryHistory;
 import com.capgemini.libraryspringrest.dto.LibraryResponse;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
 import com.capgemini.libraryspringrest.service.LibraryService;
 
 @RestController
-@CrossOrigin(origins = "*",allowedHeaders = "*",allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*", allowCredentials = "true")
 public class LibraryRestController {
 
 	@Autowired
@@ -39,8 +40,9 @@ public class LibraryRestController {
 		}
 		return response;
 	}
-	
-	@GetMapping(path = "/getReturnedBooks", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+
+	@GetMapping(path = "/getReturnedBooks", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
 	public LibraryResponse getReturnedBooks() {
 		List<RequestInfo> requestInfo = service.getReturnedBooks();
 
@@ -56,16 +58,16 @@ public class LibraryRestController {
 	}
 
 	@GetMapping(path = "/userReq/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
+			MediaType.APPLICATION_XML_VALUE })
 	public LibraryResponse userTakenBooks(@PathVariable int userId) {
 		List<RequestInfo> requestInfo = service.userTakenBooks(userId);
 		LibraryResponse response = new LibraryResponse();
 		if ((requestInfo != null) && (!requestInfo.isEmpty())) {
-			response.setMessage("Requests Books lists");
+			response.setMessage("Books Borrowed by User");
 			response.setRequestList(requestInfo);
 		} else {
 			response.setError(true);
-			response.setMessage("No Request for Books");
+			response.setMessage("No Books Borrowed By User");
 		}
 		return response;
 	}
@@ -164,7 +166,7 @@ public class LibraryRestController {
 		LibraryResponse response = new LibraryResponse();
 		boolean isDeleted = service.deleteBook(isbn);
 		if (isDeleted) {
-			response.setMessage("Book Id "+ isbn+" deleted Sucessfully" );
+			response.setMessage("Book Id " + isbn + " deleted Sucessfully");
 		} else {
 			response.setError(true);
 			response.setMessage("No Records found to delete/unble to delete " + isbn);
@@ -301,4 +303,33 @@ public class LibraryRestController {
 		return response;
 	}
 
+	@GetMapping(path = "/getAllHistory", produces = MediaType.APPLICATION_JSON_VALUE)
+	public LibraryResponse getAllHistory() {
+		List<LibraryHistory> libHistory = service.getLibHistory();
+
+		LibraryResponse response = new LibraryResponse();
+		if (libHistory != null && !libHistory.isEmpty()) {
+			response.setHistoryList(libHistory);
+
+		} else {
+			response.setError(true);
+			response.setMessage("No Books History Found");
+		}
+		return response;
+	}
+
+	@GetMapping(path = "/userHistory/{userId}", produces = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE })
+	public LibraryResponse userHistory(@PathVariable int userId) {
+		List<LibraryHistory> userHistory = service.getUserHistory(userId);
+		LibraryResponse response = new LibraryResponse();
+		if ((userHistory != null) && (!userHistory.isEmpty())) {
+			response.setMessage("Requests Books lists");
+			response.setHistoryList(userHistory);
+		} else {
+			response.setError(true);
+			response.setMessage("No History Found for User");
+		}
+		return response;
+	}
 }

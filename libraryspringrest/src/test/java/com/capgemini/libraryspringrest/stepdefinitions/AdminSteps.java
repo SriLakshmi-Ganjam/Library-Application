@@ -1,0 +1,131 @@
+package com.capgemini.libraryspringrest.stepdefinitions;
+
+import org.junit.jupiter.api.Assertions;
+
+import com.capgemini.libraryspringrest.dao.LibraryDAO;
+import com.capgemini.libraryspringrest.dao.LibraryDAOImplementation;
+import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryUsers;
+import com.capgemini.libraryspringrest.dto.RequestInfo;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class AdminSteps {
+
+	private LibraryDAO dao = new LibraryDAOImplementation();
+	
+	LibraryUsers info;
+	BookInfo bookInfo;
+	RequestInfo requestInfo;
+	boolean status;
+
+	@Given("^Admin is on login page$")
+	public void admin_is_on_login_page() throws Throwable {
+		info = new LibraryUsers();
+	}
+
+	@When("^Admin gives \"([^\"]*)\", \"([^\"]*)\"$")
+	public void admin_gives(String arg1, String arg2) throws Throwable {
+		status = dao.adminAuthentication(arg1, arg2);
+	}
+
+	@Then("^Admin should be logged in$")
+	public void admin_should_be_logged_in() throws Throwable {
+		Assertions.assertTrue(status);
+	}
+
+	@Given("^Admin is on Registartion page$")
+	public void admin_is_on_Registartion_page() throws Throwable {
+		info = new LibraryUsers();
+
+	}
+
+	@When("^Admin gives User Details \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
+	public void admin_gives_User_Details(String arg1, String arg2, String arg3, String arg4) throws Throwable {
+
+		info.setEmailId(arg1);
+		info.setName(arg2);
+		info.setPassword(arg3);
+		info.setRole(arg4);
+
+		status = dao.register(info);
+	}
+
+	@Then("^User Registered Successfully$")
+	public void user_Registered_Successfully() throws Throwable {
+		Assertions.assertTrue(status);
+
+	}
+
+	@Given("^Admin is on Add Book page$")
+	public void admin_is_on_Add_Book_page() throws Throwable {
+		bookInfo = new BookInfo();
+	}
+
+	@When("^Admin gives Book Details  \"([^\"]*)\", \"([^\"]*)\", (\\d+)$")
+	public void admin_gives_Book_Details(String arg1, String arg2, int arg3) throws Throwable {
+
+		bookInfo.setBookTitle(arg1);
+		bookInfo.setAuthourName(arg2);
+		bookInfo.setPrice(arg3);
+		bookInfo.setAvailable(true);
+		status = dao.addBook(bookInfo);
+
+	}
+
+	@Then("^Book Added Successfully$")
+	public void book_Added_Successfully() throws Throwable {
+		Assertions.assertTrue(status);
+	}
+
+	@Given("^Admin is on Delete Book page$")
+	public void admin_is_on_Delete_Book_page() throws Throwable {
+
+	}
+
+	@When("^Admin gives Book Id (\\d+)$")
+	public void admin_gives_Book_Id(int arg1) throws Throwable {
+		status = dao.deleteBook(arg1);
+
+	}
+
+	@Then("^Book Removed From Library Successfully$")
+	public void book_Removed_From_Library_Successfully() throws Throwable {
+		Assertions.assertTrue(status);
+	}
+
+	@Given("^Admin is on Issue Book page$")
+	public void admin_is_on_Issue_Book_page() throws Throwable {
+		requestInfo = new RequestInfo();
+
+	}
+
+	@When("^Admin gives valid Request Id to Issue (\\d+)$")
+	public void admin_gives_valid_Request_Id_to_Issue(int arg1) throws Throwable {
+		status = dao.isBookIssued(arg1);
+	}
+
+	@Then("^Book Issued Successfully$")
+	public void book_Issued_Successfully() throws Throwable {
+		Assertions.assertTrue(status);
+	}
+
+	@Given("^Admin is on Receive Book page$")
+	public void admin_is_on_Receive_Book_page() throws Throwable {
+		requestInfo = new RequestInfo();
+	}
+	
+	@When("^Admin gives valid Request Id to Receive (\\d+)$")
+	public void admin_gives_valid_Request_Id_to_Receive(int arg1) throws Throwable {
+		status = dao.isBookReceived(arg1);
+	}
+
+	@Then("^Book Received Successfully$")
+	public void book_Received_Successfully() throws Throwable {
+		Assertions.assertTrue(status);
+
+	}
+
+}

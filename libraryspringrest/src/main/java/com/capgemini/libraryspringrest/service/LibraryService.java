@@ -3,6 +3,7 @@ package com.capgemini.libraryspringrest.service;
 import java.util.List;
 
 import com.capgemini.libraryspringrest.dto.BookInfo;
+import com.capgemini.libraryspringrest.dto.LibraryHistory;
 import com.capgemini.libraryspringrest.dto.LibraryUsers;
 import com.capgemini.libraryspringrest.dto.RequestInfo;
 
@@ -46,4 +47,9 @@ public interface LibraryService {
 	List<RequestInfo> userTakenBooks(int userId);
 	
 	List<RequestInfo> getReturnedBooks();
+	
+	List<LibraryHistory> getLibHistory();
+	
+	List<LibraryHistory> getUserHistory(int userId);
+	
 }

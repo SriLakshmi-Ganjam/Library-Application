@@ -15,7 +15,7 @@ public class AdminInfo implements Serializable {
 	}
 
 	public AdminInfo(int adminId, String adminName, String adminEmailId, String adminPassword) {
-		super();
+//		super();
 		this.adminId = adminId;
 		this.adminName = adminName;
 		this.adminEmailId = adminEmailId;

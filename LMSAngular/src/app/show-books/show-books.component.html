@@ -15,14 +15,14 @@
 
     <table class="table table-hover table-bordered">
         <thead >
-            <tr style="color:rgb(238, 230, 230)">
+            <tr>
                 <th>BOOK ID</th>
                 <th>BOOK NAME</th>
                 <th>AUTHOR</th>
                 <th>PRICE</th>
                 <th>BOOK AVAILABILITY</th>
-                <th *ngIf = "isAdminLogin">DELETE </th>
                 <th *ngIf = "isAdminLogin">UPDATE </th>
+                <th *ngIf = "isAdminLogin"> DELETE </th>
                 <th *ngIf = "isUserLogin">Request </th>
                 <!-- <th *ngIf = "isUserLogin">Return </th> -->
             </tr>
@@ -34,9 +34,9 @@
                 <td>{{book.authourName}}</td>
                 <td>{{book.price}}</td>
                 <td>{{book.isAvailable}}</td>
-                <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'deleteBook(book)'>Delete</button></td>
-                <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'updateBook(book)'>Update</button></td>
-                <td *ngIf = "isUserLogin"><button class= "btn btn-black " (click) = 'postReq(book)'>Request</button></td>
+                <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'updateBook(book)'><i class="fas fa-pen-square" style="color: green;"></i></button></td>
+                <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'deleteBook(book)'><i class="fas fa-trash-alt" style="color: red;"></i></button></td>
+                <td *ngIf = "isUserLogin"><button class= "btn btn-black " (click) = 'postReq(book)' style="background-color: black;">Request</button></td>
                 <!-- <td *ngIf = "isUserLogin"><button class= "btn btn-danger " (click) = 'postRet(book)'>Return</button></td> -->
             </tr>
         </tbody>

@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+div{
+    font-size: solid;
+    font-weight: 600;
+    color:black;
+}
+
+table{
+    border:solid;
+    border-width: 2px;
+    color:black;
+    background-image: url("https://i.pinimg.com/236x/62/36/ad/6236ad1ac0ad5012506b6be4b758d5e9.jpg"); 
+    background-repeat: no-repeat;
+    
+    background-size: cover;
+    height: 100%;
+}
+tr,td{
+    border-color: black;
+}

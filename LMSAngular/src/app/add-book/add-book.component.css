@@ -1,7 +1,26 @@
-h2,label{
-    color: black;
+
+label,h2{
+    color: white;
 }
 button{
-    background-color: black;
-   color:white;
+    background-color:white;
+    color: black
 }
+
+.button:hover {
+    background-color:black;
+    color: white;
+  }
+  .card-img{
+      
+     width: 500px;
+      height: 600px;
+      /* padding-top: 50px; */
+  }
+  div{
+      padding-left: 30px;
+  }
+  i{
+    font-size: 50px;
+    color: white;
+  }

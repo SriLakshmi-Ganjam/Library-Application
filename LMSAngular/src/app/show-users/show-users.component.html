@@ -1,14 +1,12 @@
-
-
 <div class="container mt-4">
-    <!-- <input type="text" placeholder="search by Name" [(ngModel)] = "searchText" size="140"> -->
     <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Search By Name"  [(ngModel)] = "searchText" aria-label="Username" aria-describedby="basic-addon1">
-      </div>
-      <label name='Search By'>Search By</label>
+        <input type="text" class="form-control" placeholder="Search By Name" [(ngModel)]="searchText"
+            aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <label name='Search By'>Search By</label>
 
-    <select class="selectpicker float-right"  [(ngModel)] = "fieldName"  >
-        <option value="id" >Id</option>
+    <select class="selectpicker float-right" [(ngModel)]="fieldName">
+        <option value="id">Id</option>
         <option value="name" selected>Name</option>
         <option value="emailId">Email Id</option>
         <option value="role">Role</option>
@@ -16,31 +14,37 @@
 
     <br>
     <br>
-    <table class="table table-hover table-bordered">
-        <thead >
-            <tr style="color:rgb(238, 230, 230)">
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>No Of Books Borrowed</th>
-                <th>Fine</th>
-                <th>Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor='let user of users|searchBook:searchText:fieldName'>
-                <td>{{user.id}}</td>
-                <td>{{user.name}}</td>
-                <td>{{user.emailId}}</td>
-                <td>{{user.password}}</td>
-                <td>{{user.noOfBooksBorrowed}}</td>
-                <td>{{user.fine}}</td>
-                <td>{{user.role}}</td>
-            </tr>
 
-        </tbody>
-    </table>
 
-</div>
+    <div class="card-deck">
+        <div class="row">
+            <div class="row" style="padding-left:50px; padding-bottom: 40px;"
+                *ngFor='let user of users|searchBook:searchText:fieldName'>
 
+                <div class="card card-inverse card-primary ">
+
+
+                    <img src="https://i.pinimg.com/236x/a9/cb/00/a9cb00fa5dd90d70878ac7b78effb2e2.jpg" class="card-img"
+                        alt="...">
+                    <div class="card-img-overlay">
+
+
+                        <!-- <img class="card-img-top rounded-circle" src="data:image/png;base64,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"> -->
+                        <div class="text-center">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+
+                        <blockquote class="card-blockquote p-3">
+                            <p><Strong>Name: </Strong>{{user.name}}</p>
+                            <p><Strong>Id: </Strong>{{user.id}}</p>
+                            <p><Strong>Email Id: </Strong>{{user.emailId}}</p>
+                            <p><Strong>Password: </Strong>{{user.password}}</p>
+                            <p><Strong>No Of Books Borrowed: </Strong>{{user.noOfBooksBorrowed}}</p>
+                            <p><Strong>Fine: </Strong>{{user.fine}}</p>
+                            <p><Strong>Role: </Strong>{{user.role}}</p>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

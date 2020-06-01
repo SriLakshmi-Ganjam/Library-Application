@@ -1,0 +1,30 @@
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+<div class="container mt-4">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Request Id</th>
+                <th>User Id</th>
+                <th>Book Id</th>
+                <th>Issue Date</th>
+                <th>Expected Return Date</th>
+                <th>Return Date</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor='let history of userHistory'>
+                <td>{{history.requestId}}</td>
+                <td>{{history.userId}}</td>
+                <td>{{history.bookId}}</td>
+                 <td>{{history.issuedDate}}</td>
+                <td>{{history.expectedReturnDate}}</td>
+                <td>{{history.returnedDate}}</td> 
+               
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+

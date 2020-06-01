@@ -89,6 +89,14 @@ postUpdateBoook(book){
     return this.http.get<any>(`${this.lmsUrl}getReturnedBooks`);
   }
 
+  getHistory(){
+    return this.http.get<any>((`${this.lmsUrl}getAllHistory`));
+  }
+
+  getUserHistory(){
+    return this.http.get<any>(`${this.lmsUrl}userHistory/${this.getUserId()}`);
+  }
+
 isAdmin(){
   var role =  localStorage.getItem('role');
   if(role == 'admin')
