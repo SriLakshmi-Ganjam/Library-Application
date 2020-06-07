@@ -1,0 +1,163 @@
+package com.capgemini.lmsbdd.stepdefinitions;
+
+import static org.junit.Assert.assertTrue;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.capgemini.lmsbdd.testrunner.TestRunner;
+
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class AdminSteps extends TestRunner {
+
+	@Before
+	public void openBrowser() throws Exception {
+		driver = new ChromeDriver();
+		driver.get("http://localhost:4200/login");
+		wait = new WebDriverWait(driver, 10);
+		action = new Actions(driver);
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	}
+
+	@Given("^Admin is on login page$")
+	public void admin_is_on_login_page() throws Throwable {
+		Thread.sleep(5000);
+		String actual = driver.getTitle();
+		String excepted = "Library Management System";
+		System.out.println(actual);
+		assertTrue("The webpage is not a login page", actual.equals(excepted));
+
+	}
+
+	@When("^Admin gives \"([^\"]*)\", \"([^\"]*)\"$")
+	public void admin_gives(String arg1, String arg2) throws Throwable {
+		WebElement emailId = driver.findElement(By.id("emailId"));
+		WebElement password = driver.findElement(By.id("password"));
+		WebElement login = driver
+				.findElement(By.xpath("/html/body/app-root/app-header/app-login/div[2]/div/form/button"));
+		action.moveToElement(emailId).sendKeys(arg1).perform();
+//	emailId.sendKeys(arg1);
+//	emailId.clear();
+		emailId.sendKeys(arg1);
+		password.sendKeys(arg2);
+		login.click();
+	}
+
+	@Then("^Admin should be logged in$")
+	public void admin_should_be_logged_in() throws Throwable {
+
+	}
+
+	@Given("^Admin is on Registartion page$")
+	public void admin_is_on_Registartion_page() throws Throwable {
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//*[@id=\"navbarTogglerDemo03\"]/ul[1]/li[1]/a")).click();
+		
+
+	}
+
+	@When("^Admin gives User Details \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
+	public void admin_gives_User_Details(String arg1, String arg2, String arg3, String arg4) throws Throwable {
+		Thread.sleep(4000);
+		driver.findElement(By.id("name")).sendKeys(arg1);
+		driver.findElement(By.id("emailId")).sendKeys(arg2);
+		driver.findElement(By.id("password")).sendKeys(arg3);
+		WebElement role = driver.findElement(By.id("role"));
+
+		Select select = new Select(role);
+		select.selectByIndex(1);
+		WebElement addUser = driver
+				.findElement(By.xpath("/html/body/app-root/app-header/app-register/div/div/form/button"));
+		addUser.click();
+	}
+
+	@Then("^User Registered Successfully$")
+	public void user_Registered_Successfully() throws Throwable {
+
+	}
+
+	@Given("^Admin is on Add Book page$")
+	public void admin_is_on_Add_Book_page() throws Throwable {
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//*[@id=\"navbarTogglerDemo03\"]/ul[1]/li[2]/a")).click();
+
+	}
+
+	@When("^Admin gives Book Details  \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\", \"([^\"]*)\"$")
+	public void admin_gives_Book_Details(String arg1, String arg2, String arg3, String arg4) throws Throwable {
+
+		Thread.sleep(4000);
+		driver.findElement(By.id("bookTitle")).sendKeys(arg1);
+		driver.findElement(By.id("authourName")).sendKeys(arg2);
+		driver.findElement(By.id("price")).sendKeys(arg3);
+		WebElement isAvailable = driver.findElement(By.id("isAvailable"));
+
+		Select select = new Select(isAvailable);
+		select.selectByIndex(1);
+		WebElement addUser = driver
+				.findElement(By.xpath("/html/body/app-root/app-header/app-add-book/div/div/form/button"));
+		addUser.click();
+	}
+
+	@Then("^Book Added Successfully$")
+	public void book_Added_Successfully() throws Throwable {
+
+	}
+
+	@Given("^Admin is on Delete Book page$")
+	public void admin_is_on_Delete_Book_page() throws Throwable {
+
+	}
+
+	@When("^Admin gives Book Id (\\d+)$")
+	public void admin_gives_Book_Id(int arg1) throws Throwable {
+
+	}
+
+	@Then("^Book Removed From Library Successfully$")
+	public void book_Removed_From_Library_Successfully() throws Throwable {
+
+	}
+
+	@Given("^Admin is on Issue Book page$")
+	public void admin_is_on_Issue_Book_page() throws Throwable {
+
+	}
+
+	@When("^Admin gives valid Request Id to Issue (\\d+)$")
+	public void admin_gives_valid_Request_Id_to_Issue(int arg1) throws Throwable {
+
+	}
+
+	@Then("^Book Issued Successfully$")
+	public void book_Issued_Successfully() throws Throwable {
+
+	}
+
+	@Given("^Admin is on Receive Book page$")
+	public void admin_is_on_Receive_Book_page() throws Throwable {
+
+	}
+
+	@When("^Admin gives valid Request Id to Receive (\\d+)$")
+	public void admin_gives_valid_Request_Id_to_Receive(int arg1) throws Throwable {
+
+	}
+
+	@Then("^Book Received Successfully$")
+	public void book_Received_Successfully() throws Throwable {
+
+	}
+
+}

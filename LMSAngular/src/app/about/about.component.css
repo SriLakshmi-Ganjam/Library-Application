@@ -1,3 +1,11 @@
-.card{
-    padding-top: 100px;
+/* card{
+   
+    padding-top: 1000px;
+} */
+.card-deck{
+    
+    padding-top: 50px;
+    padding: 10;
+    margin: 20px;
+   
 }

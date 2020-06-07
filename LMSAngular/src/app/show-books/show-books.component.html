@@ -36,7 +36,7 @@
                 <td>{{book.isAvailable}}</td>
                 <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'updateBook(book)'><i class="fas fa-pen-square" style="color: green;"></i></button></td>
                 <td *ngIf = "isAdminLogin"><button class= "btn btn-black " (click) = 'deleteBook(book)'><i class="fas fa-trash-alt" style="color: red;"></i></button></td>
-                <td *ngIf = "isUserLogin"><button class= "btn btn-black " (click) = 'postReq(book)' style="background-color: black;">Request</button></td>
+                <td *ngIf = "isUserLogin"><button class= "btn btn-black " (click) = 'postReq(book)' style="background-color: skyblue">Request</button></td>
                 <!-- <td *ngIf = "isUserLogin"><button class= "btn btn-danger " (click) = 'postRet(book)'>Return</button></td> -->
             </tr>
         </tbody>

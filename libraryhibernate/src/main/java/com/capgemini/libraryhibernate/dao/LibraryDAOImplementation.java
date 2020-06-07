@@ -197,6 +197,7 @@ public class LibraryDAOImplementation implements LibraryDAO {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			String jpql = "select users from LibraryUsers users";
+//			String jpql = "select * from LibraryUsers users";
 			TypedQuery<LibraryUsers> query = manager.createQuery(jpql, LibraryUsers.class);
 			List<LibraryUsers> list = query.getResultList();
 

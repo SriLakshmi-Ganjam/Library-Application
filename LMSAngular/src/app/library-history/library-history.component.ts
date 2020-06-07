@@ -11,7 +11,8 @@ export class LibraryHistoryComponent implements OnInit {
   mySubscription: Subscription;
   libhistory;
   message: string;
-
+  searchText;
+  fieldName = "requestId";
   constructor(private libraryService: LibraryService) { }
 
   ngOnInit(): void {

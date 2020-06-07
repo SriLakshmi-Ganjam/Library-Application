@@ -1,3 +1,10 @@
 nav{
     background-color:black;
 }
+a:hover{
+    background-color: orange;
+    border-radius: 50px;
+}
+h5{
+    color: white;
+}

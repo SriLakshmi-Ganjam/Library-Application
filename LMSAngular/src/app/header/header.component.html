@@ -3,7 +3,7 @@
     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="#">Library</a>
+  <h5>Library &nbsp;&nbsp;  </h5>
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
@@ -50,7 +50,7 @@
       <!-------------------- Users list--------------------->
 
       <li class="nav-item" *ngIf = "libraryService.isUser()">
-        <a class="nav-link" routerLink="/showBooks"><i class="fas fa-book"></i> Books</a>
+        <a class="nav-link" routerLink="/showBooks">  <i class="fas fa-book"></i> Books</a>
       </li>
 
       <li class="nav-item" *ngIf = "libraryService.isUser()">

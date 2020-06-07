@@ -1,0 +1,54 @@
+package com.capgemini.lmsbdd.stepdefinitions;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class UserSteps {
+
+	@Given("^User is on login page$")
+	public void user_is_on_login_page() throws Throwable {
+
+	}
+
+	@When("^User gives \"([^\"]*)\", \"([^\"]*)\"$")
+	public void user_gives(String arg1, String arg2) throws Throwable {
+
+	}
+
+	@Then("^User should be logged in$")
+	public void user_should_be_logged_in() throws Throwable {
+
+	}
+
+	@Given("^User is on Request page$")
+	public void user_is_on_Request_page() throws Throwable {
+
+	}
+
+	@When("^User Requests a Book by valid User Id and Book Id (\\d+), (\\d+)$")
+	public void user_Requests_a_Book_by_valid_User_Id_and_Book_Id(int arg1, int arg2) throws Throwable {
+
+	}
+
+	@Then("^User Placed a Request Successfully$")
+	public void user_Placed_a_Request_Successfully() throws Throwable {
+
+	}
+
+	@Given("^User is on Return page$")
+	public void user_is_on_Return_page() throws Throwable {
+
+	}
+
+	@When("^User Returns a Book by valid User Id and Book Id (\\d+), (\\d+)$")
+	public void user_Returns_a_Book_by_valid_User_Id_and_Book_Id(int arg1, int arg2) throws Throwable {
+
+	}
+
+	@Then("^User  Returned the Book Successfully$")
+	public void user_Returned_the_Book_Successfully() throws Throwable {
+
+	}
+
+}

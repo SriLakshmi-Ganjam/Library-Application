@@ -1,6 +1,17 @@
-
-
 <div class="container mt-4">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search By RequestId" [(ngModel)]="searchText"
+            aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <label name='Search By'>Search By</label>
+
+    <select class="selectpicker float-right" [(ngModel)]="fieldName">
+        <option value="requestId" selected>Id</option>
+        <option value="userId">User Id</option>
+        <option value="bookId">Book Id </option>
+        <!-- <option value="role">Role</option> -->
+    </select>
+    <br><br>
     <table class="table table-hover table-bordered">
         <thead style="color: white; background: black;">
             <tr>
@@ -12,7 +23,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor='let request of requests'>
+            <tr *ngFor='let request of requests|searchBook:searchText:fieldName'>
                 <td>{{request.requestId}}</td>
                 <td>{{request.userId}}</td>
                 <td>{{request.bookId}}</td>
@@ -22,6 +33,4 @@
 
         </tbody>
     </table>
-
 </div>
-

@@ -1,0 +1,95 @@
+package com.capgemini.lmsbdd.stepdefinitions;
+
+import static org.junit.Assert.assertTrue;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.capgemini.lmsbdd.testrunner.TestRunner;
+
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class UserSteps extends TestRunner {
+	
+	@Before
+	public void openBrowser() throws Exception {
+		driver = new ChromeDriver();
+		driver.get("http://localhost:4200/login");
+		wait = new WebDriverWait(driver, 10);
+		action = new Actions(driver);
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+	}
+
+	@Given("^User is on login page$")
+	public void user_is_on_login_page() throws Throwable {
+		Thread.sleep(5000);
+		String actual = driver.getTitle();
+		String excepted = "Library Management System";
+		System.out.println(actual);
+		assertTrue("The webpage is not a login page", actual.equals(excepted));
+
+	}
+
+	@When("^User gives \"([^\"]*)\", \"([^\"]*)\"$")
+	public void user_gives(String arg1, String arg2) throws Throwable {
+		WebElement emailId = driver.findElement(By.id("emailId"));
+		WebElement password = driver.findElement(By.id("password"));
+		WebElement login = driver
+				.findElement(By.xpath("/html/body/app-root/app-header/app-login/div[2]/div/form/button"));
+		action.moveToElement(emailId).sendKeys(arg1).perform();
+//	emailId.sendKeys(arg1);
+//	emailId.clear();
+		emailId.sendKeys(arg1);
+		password.sendKeys(arg2);
+		login.click();
+	}
+
+	@Then("^User should be logged in$")
+	public void user_should_be_logged_in() throws Throwable {
+
+	}
+
+	@Given("^User is on Request page$")
+	public void user_is_on_Request_page() throws Throwable {
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//*[@id=\"navbarTogglerDemo03\"]/ul[1]/li[1]/a")).click();
+	
+	}
+
+	@When("^User Requests a Book by valid User Id and Book Id (\\d+), (\\d+)$")
+	public void user_Requests_a_Book_by_valid_User_Id_and_Book_Id(int arg1, int arg2) throws Throwable {
+		Thread.sleep(3000);
+		driver.findElement(By.xpath("//*[@id=\"navbarTogglerDemo03\"]/ul[1]/li[5]/a")).click();
+	
+	}
+
+	@Then("^User Placed a Request Successfully$")
+	public void user_Placed_a_Request_Successfully() throws Throwable {
+
+	}
+
+	@Given("^User is on Return page$")
+	public void user_is_on_Return_page() throws Throwable {
+
+	}
+
+	@When("^User Returns a Book by valid User Id and Book Id (\\d+), (\\d+)$")
+	public void user_Returns_a_Book_by_valid_User_Id_and_Book_Id(int arg1, int arg2) throws Throwable {
+
+	}
+
+	@Then("^User  Returned the Book Successfully$")
+	public void user_Returned_the_Book_Successfully() throws Throwable {
+
+	}
+
+}

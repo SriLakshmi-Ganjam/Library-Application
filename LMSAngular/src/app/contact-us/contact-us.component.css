@@ -1,10 +1,19 @@
-.card{
-    width:2500px;
-    height: 80vh;
-    padding-top: 50px;
-    margin: 0 auto;
+.card {
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+    width: 500px;
+    height: 300px;
+    
+       
+}
+h1,p{
+    color: white;
     text-align: center;
-    float: none;
-    margin-bottom: 10px;
-    border: none;
+}
+.card-img-top{
+   
+    opacity: 0.7;
+    width: 500px;
+    height: 300px;
 }

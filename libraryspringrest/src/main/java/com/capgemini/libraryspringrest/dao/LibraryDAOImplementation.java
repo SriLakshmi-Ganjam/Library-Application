@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -25,10 +24,11 @@ import com.capgemini.libraryspringrest.exception.LibraryException;
 public class LibraryDAOImplementation implements LibraryDAO {
 
 	@PersistenceUnit
-	private EntityManagerFactory factory = Persistence.createEntityManagerFactory("TestPersistence");;
+	private EntityManagerFactory factory;
 
 	@Override
 	public boolean register(LibraryUsers user) {
+		 
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		String jpql = null;

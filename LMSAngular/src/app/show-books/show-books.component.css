@@ -8,8 +8,8 @@ tr,td{
     
 }
 button{
-
-    color: blanchedalmond;
+    /* background-color: orange; */
+    color: white;
     
 }
 
@@ -26,5 +26,5 @@ button{
   i{
       text-align: center;
      
-      font-size: 30px;
+      font-size: 25px;
   }

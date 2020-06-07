@@ -1,0 +1,42 @@
+Feature: After User Login he performs Operations like Request a Book and Return a book
+
+Background:
+
+Scenario: User login with valid credentials 
+
+Given User is on login page
+When User gives <emailId>, <password>
+Then User should be logged in
+
+
+Examples:
+
+|emailId|password|
+|"padma@gmail.com"|"padmavathi"|
+
+
+Scenario Outline: Request a Book
+
+Given User is on Request page
+When User Requests a Book by valid User Id and Book Id <userId>, <bookId>
+Then User Placed a Request Successfully
+
+Examples:
+
+|userId|bookId|
+|63|66|
+
+
+Scenario Outline: Return a Book
+
+Given User is on Return page
+When User Returns a Book by valid User Id and Book Id <userId>, <bookId>
+Then User  Returned the Book Successfully
+
+Examples:
+
+|userId|bookId|
+|68|65|
+
+
+

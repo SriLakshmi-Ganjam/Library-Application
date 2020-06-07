@@ -1,6 +1,8 @@
 <div class="alert alert-success" *ngIf='message'>{{message}}</div>
 <div class="col-md-4 offset-4 mt-4">
-    <div class="card text-black bg-light mb-3">
+    <img src="https://i.pinimg.com/236x/a9/cb/00/a9cb00fa5dd90d70878ac7b78effb2e2.jpg" class="card-img" alt="...">
+  <div class="card-img-overlay">
+    <!-- <div class="card text-black bg-light mb-3"> -->
         <div class="card-body">
             <h2 class="text-center">Update Book</h2>
             <form #updateForm='ngForm' (ngSubmit) = 'postUpdate(updateForm)'>

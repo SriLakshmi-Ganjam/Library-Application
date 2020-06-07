@@ -29,3 +29,14 @@ i{
     font-size: 150px;
     }
 
+.image{
+    /* width: 92vh;
+    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQpgjRkQ1VNEYTAgrWRaPbsLWQjnCrMvniqV6Yr-677VCpqXRni&usqp=CAU'); */
+
+    height: 43.3em;
+    background-position:50% 50%;
+    background-size: cover; width: auto;
+    padding-top: 0%;
+    background-image:url('https://cdn2.vectorstock.com/i/1000x1000/94/81/abstract-blue-wave-background-vector-899481.jpg');
+    background-attachment: scroll;
+}

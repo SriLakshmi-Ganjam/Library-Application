@@ -58,6 +58,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 120900,
+  "status": "passed"
+});
 formatter.background({
   "comments": [
     {
@@ -78,7 +82,7 @@ formatter.step({
 });
 formatter.step({
   "line": 8,
-  "name": "Admin gives \"sri@.gmail.com\", \"lakshmi\"",
+  "name": "Admin gives \"sri@gmail.com\", \"lakshmi\"",
   "keyword": "When "
 });
 formatter.step({
@@ -90,25 +94,25 @@ formatter.match({
   "location": "AdminSteps.admin_is_on_login_page()"
 });
 formatter.result({
-  "duration": 2522385600,
+  "duration": 707431300,
   "status": "passed"
 });
 formatter.match({
   "arguments": [
     {
-      "val": "sri@.gmail.com",
+      "val": "sri@gmail.com",
       "offset": 13
     },
     {
       "val": "lakshmi",
-      "offset": 31
+      "offset": 30
     }
   ],
   "location": "AdminSteps.admin_gives(String,String)"
 });
 formatter.result({
-  "duration": 256173100,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: Invalid Login Credentials\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.adminAuthentication(LibraryDAOImplementation.java:88)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:31)\r\n\tat ✽.When Admin gives \"sri@.gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
+  "duration": 18023200,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:50)\r\n\tat ✽.When Admin gives \"sri@gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
   "status": "failed"
 });
 formatter.match({
@@ -232,6 +236,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 48800,
+  "status": "passed"
+});
 formatter.background({
   "comments": [
     {
@@ -252,7 +260,7 @@ formatter.step({
 });
 formatter.step({
   "line": 8,
-  "name": "Admin gives \"sri@.gmail.com\", \"lakshmi\"",
+  "name": "Admin gives \"sri@gmail.com\", \"lakshmi\"",
   "keyword": "When "
 });
 formatter.step({
@@ -264,25 +272,25 @@ formatter.match({
   "location": "AdminSteps.admin_is_on_login_page()"
 });
 formatter.result({
-  "duration": 144594800,
+  "duration": 31400,
   "status": "passed"
 });
 formatter.match({
   "arguments": [
     {
-      "val": "sri@.gmail.com",
+      "val": "sri@gmail.com",
       "offset": 13
     },
     {
       "val": "lakshmi",
-      "offset": 31
+      "offset": 30
     }
   ],
   "location": "AdminSteps.admin_gives(String,String)"
 });
 formatter.result({
-  "duration": 15011801,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: Invalid Login Credentials\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.adminAuthentication(LibraryDAOImplementation.java:88)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:31)\r\n\tat ✽.When Admin gives \"sri@.gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
+  "duration": 419000,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:50)\r\n\tat ✽.When Admin gives \"sri@gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
   "status": "failed"
 });
 formatter.match({
@@ -397,6 +405,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 204100,
+  "status": "passed"
+});
 formatter.background({
   "comments": [
     {
@@ -417,7 +429,7 @@ formatter.step({
 });
 formatter.step({
   "line": 8,
-  "name": "Admin gives \"sri@.gmail.com\", \"lakshmi\"",
+  "name": "Admin gives \"sri@gmail.com\", \"lakshmi\"",
   "keyword": "When "
 });
 formatter.step({
@@ -429,25 +441,25 @@ formatter.match({
   "location": "AdminSteps.admin_is_on_login_page()"
 });
 formatter.result({
-  "duration": 140996499,
+  "duration": 40700,
   "status": "passed"
 });
 formatter.match({
   "arguments": [
     {
-      "val": "sri@.gmail.com",
+      "val": "sri@gmail.com",
       "offset": 13
     },
     {
       "val": "lakshmi",
-      "offset": 31
+      "offset": 30
     }
   ],
   "location": "AdminSteps.admin_gives(String,String)"
 });
 formatter.result({
-  "duration": 6863700,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: Invalid Login Credentials\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.adminAuthentication(LibraryDAOImplementation.java:88)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:31)\r\n\tat ✽.When Admin gives \"sri@.gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
+  "duration": 727300,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:50)\r\n\tat ✽.When Admin gives \"sri@gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
   "status": "failed"
 });
 formatter.match({
@@ -552,6 +564,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 37600,
+  "status": "passed"
+});
 formatter.background({
   "comments": [
     {
@@ -572,7 +588,7 @@ formatter.step({
 });
 formatter.step({
   "line": 8,
-  "name": "Admin gives \"sri@.gmail.com\", \"lakshmi\"",
+  "name": "Admin gives \"sri@gmail.com\", \"lakshmi\"",
   "keyword": "When "
 });
 formatter.step({
@@ -584,25 +600,25 @@ formatter.match({
   "location": "AdminSteps.admin_is_on_login_page()"
 });
 formatter.result({
-  "duration": 153204200,
+  "duration": 38000,
   "status": "passed"
 });
 formatter.match({
   "arguments": [
     {
-      "val": "sri@.gmail.com",
+      "val": "sri@gmail.com",
       "offset": 13
     },
     {
       "val": "lakshmi",
-      "offset": 31
+      "offset": 30
     }
   ],
   "location": "AdminSteps.admin_gives(String,String)"
 });
 formatter.result({
-  "duration": 11514699,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: Invalid Login Credentials\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.adminAuthentication(LibraryDAOImplementation.java:88)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:31)\r\n\tat ✽.When Admin gives \"sri@.gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
+  "duration": 1965200,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:50)\r\n\tat ✽.When Admin gives \"sri@gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
   "status": "failed"
 });
 formatter.match({
@@ -707,6 +723,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 41800,
+  "status": "passed"
+});
 formatter.background({
   "comments": [
     {
@@ -727,7 +747,7 @@ formatter.step({
 });
 formatter.step({
   "line": 8,
-  "name": "Admin gives \"sri@.gmail.com\", \"lakshmi\"",
+  "name": "Admin gives \"sri@gmail.com\", \"lakshmi\"",
   "keyword": "When "
 });
 formatter.step({
@@ -739,25 +759,25 @@ formatter.match({
   "location": "AdminSteps.admin_is_on_login_page()"
 });
 formatter.result({
-  "duration": 153719600,
+  "duration": 680300,
   "status": "passed"
 });
 formatter.match({
   "arguments": [
     {
-      "val": "sri@.gmail.com",
+      "val": "sri@gmail.com",
       "offset": 13
     },
     {
       "val": "lakshmi",
-      "offset": 31
+      "offset": 30
     }
   ],
   "location": "AdminSteps.admin_gives(String,String)"
 });
 formatter.result({
-  "duration": 9054700,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: Invalid Login Credentials\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.adminAuthentication(LibraryDAOImplementation.java:88)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:31)\r\n\tat ✽.When Admin gives \"sri@.gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
+  "duration": 528000,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.AdminSteps.admin_gives(AdminSteps.java:50)\r\n\tat ✽.When Admin gives \"sri@gmail.com\", \"lakshmi\"(admin.feature:8)\r\n",
   "status": "failed"
 });
 formatter.match({
@@ -872,6 +892,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 62900,
+  "status": "passed"
+});
 formatter.scenario({
   "line": 12,
   "name": "User login with valid credentials",
@@ -903,7 +927,7 @@ formatter.match({
   "location": "UserSteps.user_is_on_login_page()"
 });
 formatter.result({
-  "duration": 102353000,
+  "duration": 18251000,
   "status": "passed"
 });
 formatter.match({
@@ -920,15 +944,15 @@ formatter.match({
   "location": "UserSteps.user_gives(String,String)"
 });
 formatter.result({
-  "duration": 6552400,
-  "status": "passed"
+  "duration": 2523900,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.adminAuthentication(LibraryDAOImplementation.java:91)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.UserSteps.user_gives(UserSteps.java:27)\r\n\tat ✽.When User gives \"padma@gmail.com\", \"padmavathi\"(user.feature:6)\r\n",
+  "status": "failed"
 });
 formatter.match({
   "location": "UserSteps.user_should_be_logged_in()"
 });
 formatter.result({
-  "duration": 4000499,
-  "status": "passed"
+  "status": "skipped"
 });
 formatter.scenarioOutline({
   "line": 15,
@@ -978,6 +1002,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 36500,
+  "status": "passed"
+});
 formatter.scenario({
   "line": 24,
   "name": "Request a Book",
@@ -1009,7 +1037,7 @@ formatter.match({
   "location": "UserSteps.user_is_on_Request_page()"
 });
 formatter.result({
-  "duration": 100602600,
+  "duration": 737300,
   "status": "passed"
 });
 formatter.match({
@@ -1026,8 +1054,8 @@ formatter.match({
   "location": "UserSteps.user_Requests_a_Book_by_valid_User_Id_and_Book_Id(int,int)"
 });
 formatter.result({
-  "duration": 15829300,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: You \u0027ve Already Placed Maximum No Of Requests\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.bookRequest(LibraryDAOImplementation.java:349)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.UserSteps.user_Requests_a_Book_by_valid_User_Id_and_Book_Id(UserSteps.java:43)\r\n\tat ✽.When User Requests a Book by valid User Id and Book Id 63, 66(user.feature:18)\r\n",
+  "duration": 4321300,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.bookRequest(LibraryDAOImplementation.java:352)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.UserSteps.user_Requests_a_Book_by_valid_User_Id_and_Book_Id(UserSteps.java:43)\r\n\tat ✽.When User Requests a Book by valid User Id and Book Id 63, 66(user.feature:18)\r\n",
   "status": "failed"
 });
 formatter.match({
@@ -1084,6 +1112,10 @@ formatter.examples({
   ],
   "keyword": "Examples"
 });
+formatter.before({
+  "duration": 124600,
+  "status": "passed"
+});
 formatter.scenario({
   "line": 36,
   "name": "Return a Book",
@@ -1115,7 +1147,7 @@ formatter.match({
   "location": "UserSteps.user_is_on_Return_page()"
 });
 formatter.result({
-  "duration": 103174600,
+  "duration": 84400,
   "status": "passed"
 });
 formatter.match({
@@ -1132,8 +1164,8 @@ formatter.match({
   "location": "UserSteps.user_Returns_a_Book_by_valid_User_Id_and_Book_Id(int,int)"
 });
 formatter.result({
-  "duration": 8951700,
-  "error_message": "com.capgemini.libraryspringrest.exception.LibraryException: Book Not Yet Issued\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.bookReturn(LibraryDAOImplementation.java:468)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.UserSteps.user_Returns_a_Book_by_valid_User_Id_and_Book_Id(UserSteps.java:61)\r\n\tat ✽.When User Returns a Book by valid User Id and Book Id 68, 65(user.feature:30)\r\n",
+  "duration": 3129900,
+  "error_message": "java.lang.NullPointerException\r\n\tat com.capgemini.libraryspringrest.dao.LibraryDAOImplementation.bookReturn(LibraryDAOImplementation.java:471)\r\n\tat com.capgemini.libraryspringrest.stepdefinitions.UserSteps.user_Returns_a_Book_by_valid_User_Id_and_Book_Id(UserSteps.java:61)\r\n\tat ✽.When User Returns a Book by valid User Id and Book Id 68, 65(user.feature:30)\r\n",
   "status": "failed"
 });
 formatter.match({

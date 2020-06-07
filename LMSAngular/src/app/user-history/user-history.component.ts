@@ -9,7 +9,8 @@ import { LibraryService } from '../library.service';
 export class UserHistoryComponent implements OnInit {
   userHistory;
   message:string
-
+  searchText;
+  fieldName = "requestId";
   constructor(private libraryService:LibraryService) { }
 
   ngOnInit(): void {

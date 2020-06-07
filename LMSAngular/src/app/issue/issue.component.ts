@@ -15,7 +15,8 @@ export class IssueComponent implements OnInit {
   mySubscription: Subscription;
   requests;
   books;
-
+  searchText;
+  fieldName = "requestId";
 constructor(private libraryService: LibraryService) {
   this.getRequestedBooks();
   // this.books = libraryService.getBooks();

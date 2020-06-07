@@ -15,7 +15,8 @@ export class ReturnedBooksComponent implements OnInit {
   returnedBooks;
   requests;
   books;
-
+  searchText;
+  fieldName = "requestId";
 constructor(private libraryService: LibraryService) {
   this.getReturnedBooks();
 }

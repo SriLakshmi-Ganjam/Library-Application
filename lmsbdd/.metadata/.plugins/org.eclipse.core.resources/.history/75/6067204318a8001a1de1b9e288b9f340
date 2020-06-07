@@ -1,0 +1,21 @@
+Feature: After Admin Login he performs Operations like addUser, addBook, deleteBook, issueBook, receiveBook 
+
+Background:
+
+Given Admin is on login page
+When Admin gives "sri@gmail.com", "lakshmi" 
+Then Admin should be logged in
+
+Scenario: User login with valid credentials 
+
+@register			
+Scenario Outline: User Registartion
+
+Given Admin is on Registartion page
+When Admin gives User Details <name>, <emailId>, <password>, <role>
+Then User Registered Successfully
+
+Examples:
+
+|name|emailId|password|role|
+|"Arun"|"arun@gmail.com"|"arun1234"|"user"|

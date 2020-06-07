@@ -10,7 +10,7 @@
     <select class="selectpicker float-right"  [(ngModel)] = "fieldName"  >
         <option value="requestId" selected >Id</option>
         <option value="userId" >User Id</option>
-        <option value="bookId">Book Id Id</option>
+        <option value="bookId">Book Id </option>
         <!-- <option value="role">Role</option> -->
     </select>
     <br><br>
@@ -30,8 +30,8 @@
                 <td>{{request.requestId}}</td>
                 <td>{{request.userId}}</td>
                 <td>{{request.bookId}}</td>
-                <td ><button class="btn btn-black" (click) = 'issue(request)'>Issue</button></td>
-                <!-- <td ><button class= "btn btn-danger " (click) = 'receive(request)'>Receive</button></td> -->
+                <td ><button class="btn btn" (click) = 'issue(request)'>Issue</button></td>
+                
             </tr>
 
         </tbody>
